@@ -1,0 +1,2 @@
+class YugiohError < RuntimeError
+end
