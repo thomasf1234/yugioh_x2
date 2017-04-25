@@ -29,5 +29,50 @@ module YugiohX2Spec
         end
       end
     end
+
+    describe '#prompt_password' do
+      let(:user_manager) { YugiohX2Lib::UserManager.new(is, os) }
+      let(:is) { StringIO.new }
+      let(:os) { StringIO.new }
+
+      context 'more than 6 characters inputted' do
+        context "correctly confirmed password" do
+          before :each do
+            allow(is).to receive(:gets).and_return("Password\n", "Password\n")
+          end
+
+          it 'returns the password' do
+            password = user_manager.prompt_password
+            expect(password).to eq("Password")
+          end
+        end
+
+        context "correctly confirmed password after incorrect confirmations" do
+          before :each do
+            allow(is).to receive(:gets).and_return("Password\n", "Passwordlll\n",
+                                                   "Password\n", "Passwordkkk\n",
+                                                   "Password\n", "Password\n")
+          end
+
+          it 'returns the password' do
+            password = user_manager.prompt_password
+            expect(password).to eq("Password")
+          end
+        end
+      end
+
+      context 'less than 6 characters inputted' do
+        before :each do
+          allow(is).to receive(:gets).and_return("fj\n", "fffff\n",
+                                                 "Password\n", "Passwordkkk\n",
+                                                 "Password\n", "Password\n")
+        end
+
+        it 'prompts until a password is given and then confirmed' do
+          password = user_manager.prompt_password
+          expect(password).to eq("Password")
+        end
+      end
+    end
   end
 end
