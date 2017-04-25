@@ -7,6 +7,7 @@ require 'active_record'
 require_relative 'db/initialize'
 Dir["app/exceptions/**/*.rb"].each { |file| require_relative file }
 Dir["app/**/*.rb"].each { |file| require_relative file }
+Dir["lib/**/*.rb"].each { |file| require_relative file }
 
 # http://www.yugioh-card.com/uk/rulebook/Rulebook_v9_en.pdf
 
