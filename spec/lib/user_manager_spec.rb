@@ -2,18 +2,18 @@ require 'spec_helper'
 
 module YugiohX2Spec
   RSpec.describe YugiohX2Lib::UserManager do
-    describe '#prompt_username' do
-      let(:user_manager) { YugiohX2Lib::UserManager.new(is, os) }
-      let(:is) { StringIO.new }
-      let(:os) { StringIO.new }
+    let(:user_manager) { YugiohX2Lib::UserManager.new(is, os) }
+    let(:is) { StringIO.new }
+    let(:os) { StringIO.new }
 
+    describe '#prompt_username' do
       context 'more than 2 characters inputted' do
         before :each do
           allow(is).to receive(:gets).and_return("MyUsername\n")
         end
 
         it 'returns the username' do
-          username = user_manager.prompt_username
+          username = user_manager.send(:prompt_username)
           expect(username).to eq("MyUsername")
         end
       end
@@ -24,7 +24,7 @@ module YugiohX2Spec
         end
 
         it 'reprompts until a valid username is inputted' do
-          username = user_manager.prompt_username
+          username = user_manager.send(:prompt_username)
           expect(username).to eq("ValidUsername")
         end
       end
@@ -42,7 +42,7 @@ module YugiohX2Spec
           end
 
           it 'returns the password' do
-            password = user_manager.prompt_password
+            password = user_manager.send(:prompt_password)
             expect(password).to eq("Password")
           end
         end
@@ -55,7 +55,7 @@ module YugiohX2Spec
           end
 
           it 'returns the password' do
-            password = user_manager.prompt_password
+            password = user_manager.send(:prompt_password)
             expect(password).to eq("Password")
           end
         end
@@ -69,9 +69,17 @@ module YugiohX2Spec
         end
 
         it 'prompts until a password is given and then confirmed' do
-          password = user_manager.prompt_password
+          password = user_manager.send(:prompt_password)
           expect(password).to eq("Password")
         end
+      end
+    end
+
+    describe "#encrypted_password" do
+      let(:encrypted_password) { "{SHA256}#{Digest::SHA256.digest("test_user:test_password")}" }
+
+      it 'returns a one-way encrypted password' do
+        expect(user_manager.send(:encrypted_password, "test_user", "test_password")).to eq(encrypted_password)
       end
     end
   end
