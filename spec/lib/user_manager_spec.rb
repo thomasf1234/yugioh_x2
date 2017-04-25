@@ -82,5 +82,17 @@ module YugiohX2Spec
         expect(user_manager.send(:encrypted_password, "test_user", "test_password")).to eq(encrypted_password)
       end
     end
+
+    describe "#create_user" do
+      context "user exists" do
+        before :each do
+          User.create!(username: 'test_user', encrypted_password: 'sha256 encrypted password')
+        end
+
+        it 'raises error' do
+          expect { user_manager.create_user }
+        end
+      end
+    end
   end
 end
