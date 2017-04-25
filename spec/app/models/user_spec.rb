@@ -19,5 +19,13 @@ module UserSpec
         end
       end
     end
+
+    describe ".encrypt_password" do
+      let(:encrypted_password) { "{SHA256}#{Digest::SHA256.digest("test_user:test_password")}" }
+
+      it 'returns a one-way encrypted password' do
+        expect(User.encrypt_password("test_user", "test_password")).to eq(encrypted_password)
+      end
+    end
   end
 end

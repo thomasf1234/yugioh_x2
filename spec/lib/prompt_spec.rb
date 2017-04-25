@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 module YugiohX2Spec
-  RSpec.describe YugiohX2Lib::UserManager do
-    let(:user_manager) { YugiohX2Lib::UserManager.new(is, os) }
+  RSpec.describe YugiohX2Lib::Prompt do
+    let(:user_manager) { YugiohX2Lib::Prompt.new(is, os) }
     let(:is) { StringIO.new }
     let(:os) { StringIO.new }
 
@@ -31,7 +31,7 @@ module YugiohX2Spec
     end
 
     describe '#prompt_password' do
-      let(:user_manager) { YugiohX2Lib::UserManager.new(is, os) }
+      let(:user_manager) { YugiohX2Lib::Prompt.new(is, os) }
       let(:is) { StringIO.new }
       let(:os) { StringIO.new }
 
@@ -71,26 +71,6 @@ module YugiohX2Spec
         it 'prompts until a password is given and then confirmed' do
           password = user_manager.send(:prompt_password)
           expect(password).to eq("Password")
-        end
-      end
-    end
-
-    describe "#encrypted_password" do
-      let(:encrypted_password) { "{SHA256}#{Digest::SHA256.digest("test_user:test_password")}" }
-
-      it 'returns a one-way encrypted password' do
-        expect(user_manager.send(:encrypted_password, "test_user", "test_password")).to eq(encrypted_password)
-      end
-    end
-
-    describe "#create_user" do
-      context "user exists" do
-        before :each do
-          User.create!(username: 'test_user', encrypted_password: 'sha256 encrypted password')
-        end
-
-        it 'raises error' do
-          expect { user_manager.create_user }
         end
       end
     end

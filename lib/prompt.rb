@@ -1,5 +1,4 @@
 require 'io/console'
-require 'digest'
 
 module YugiohX2Lib
   class Prompt
@@ -50,10 +49,6 @@ module YugiohX2Lib
       end
 
       password
-    end
-
-    def encrypted_password(username, password)
-      "{SHA256}#{Digest::SHA256.digest("#{username}:#{password}")}"
     end
   end
 end
