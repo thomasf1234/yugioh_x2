@@ -17,7 +17,7 @@ namespace :admin do
 
       if user.nil?
         password = prompt.prompt_password
-        encrypted_password = prompt.encrypted_password(username, password)
+        encrypted_password = User.encrypt_password(username, password)
         User.create({username: username, encrypted_password: encrypted_password})
       else
         raise("User already exists")
@@ -36,7 +36,7 @@ namespace :admin do
       else
         prompt = YugiohX2Lib::Prompt.new
         password = prompt.prompt_password('New Password: ')
-        encrypted_password = prompt.encrypted_password(username, password)
+        encrypted_password = User.encrypt_password(username, password)
         user.encrypted_password = encrypted_password
         user.save!
       end
