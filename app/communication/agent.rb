@@ -14,12 +14,15 @@ module YugiohX2
         begin
           loop do
             begin
+              SLogger.instance.debug("Waiting for client...")
               while client = @clients.pop(true)
                 occupy(client) do |client|
                   handle_client(client)
                 end
               end
-            rescue ThreadError
+            rescue ThreadError => te
+              SLogger.instance.fatal("#{@name} : #{te.class} : #{te.message}")
+              SLogger.instance.fatal("#{@name} : #{te.backtrace.join("\n")}")
             end
           end
         rescue Exception => e

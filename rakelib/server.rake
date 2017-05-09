@@ -3,7 +3,7 @@
 namespace :admin do
   namespace :server do
     def server_status
-      if YugiohX2Lib::PidManager.running?
+      if YugiohX2Lib::PidManager.server_running?
         puts "server is running with pid: #{YugiohX2Lib::PidManager.read_pid}"
       else
         puts "server is stopped"
@@ -24,7 +24,7 @@ namespace :admin do
 
     desc "server stop"
     task :stop do
-      if YugiohX2Lib::PidManager.running?
+      if YugiohX2Lib::PidManager.server_running?
         puts "stopping server now"
         begin
           pid = YugiohX2Lib::PidManager.read_pid.to_i
@@ -33,7 +33,8 @@ namespace :admin do
           # process exited normally
         end
 
-        if YugiohX2Lib::PidManager.running?
+        sleep 3
+        if YugiohX2Lib::PidManager.server_running?
           raise YugiohX2::YugiohError.new("Server still running!")
         else
           puts "server is stopped"

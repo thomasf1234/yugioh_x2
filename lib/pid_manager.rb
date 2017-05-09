@@ -7,7 +7,7 @@ module YugiohX2Lib
     class << self
       def spawn
         ensure_pid_dir
-        if running?
+        if server_running?
           raise YugiohX2::YugiohError.new("server already running!")
         else
           ensure_no_pid_file
@@ -25,7 +25,7 @@ module YugiohX2Lib
 
       # Checks if a process exists
       # @param pid the process id
-      def running?
+      def server_running?
         begin
           if File.exists?(PID_FILE)
             pid = read_pid
