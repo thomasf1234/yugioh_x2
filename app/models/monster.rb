@@ -1,5 +1,15 @@
 module YugiohX2
   class Monster < ActiveRecord::Base
+    module Types
+      NORMAL = 'Normal'
+      EFFECT = 'Effect'
+      FUSION = 'Fusion'
+      RITUAL = 'Ritual'
+      SYNCHRO = 'Synchro'
+      XYZ = 'Xyz'
+      ALL = constants.collect { |const| module_eval(const.to_s) }
+    end
+
     module Elements
       DARK = 'DARK'
       DIVINE = 'DIVINE'

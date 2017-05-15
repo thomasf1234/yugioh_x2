@@ -41,7 +41,7 @@ module YugiohX2Lib
     end
 
     def positive_integer?(obj)
-      obj.kind_of?(Fixnum) && obj > 0 && obj.integer?
+      obj.kind_of?(Integer) && obj > 0 && obj.integer?
     end
   end
 end

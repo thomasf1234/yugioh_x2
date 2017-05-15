@@ -1,5 +1,10 @@
 module YugiohX2
   class Card < ActiveRecord::Base
+    module Types
+      MONSTER = 'Monster'
+      NON_MONSTER = 'NonMonster'
+    end
+
     module Categories
       NORMAL = 'Normal'
       EFFECT = 'Effect'
@@ -7,6 +12,7 @@ module YugiohX2
       RITUAL = 'Ritual'
       SYNCHRO = 'Synchro'
       XYZ = 'Xyz'
+      PENDULUM = 'Pendulum'
       SPELL = 'Spell'
       TRAP = 'Trap'
       ALL = constants.collect { |const| module_eval(const.to_s) }
