@@ -269,54 +269,240 @@ EOF
       end
 
       context 'Spell Card' do
-        let(:card_db_name) { "Monster_Reborn" }
-        let(:expected_description) do
-          <<EOF
+        context 'Normal' do
+          let(:card_db_name) { "Monster_Reborn" }
+          let(:expected_description) do
+            <<EOF
 Target 1 monster in either player's Graveyard; Special Summon it.
 EOF
+          end
+
+          it 'should be a Normal Spell' do
+            expect(main_page.card_db_name).to eq(card_db_name)
+            expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
+            expect(main_page.category).to eq(YugiohX2::Card::Categories::SPELL)
+            expect(main_page.card_name).to eq("Monster Reborn")
+            expect(main_page.level).to eq(nil)
+            expect(main_page.rank).to eq(nil)
+            expect(main_page.pendulum_scale).to eq(nil)
+            expect(main_page.attribute).to eq(nil)
+            expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::NORMAL)
+            expect(main_page.types).to match_array([])
+            expect(main_page.attack).to eq(nil)
+            expect(main_page.defense).to eq(nil)
+            expect(main_page.card_description).to eq(expected_description.strip)
+            expect(main_page.serial_number).to eq('83764718')
+          end
         end
 
-        it 'should be Spell' do
-          expect(main_page.card_db_name).to eq(card_db_name)
-          expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
-          expect(main_page.category).to eq(YugiohX2::Card::Categories::SPELL)
-          expect(main_page.card_name).to eq("Monster Reborn")
-          expect(main_page.level).to eq(nil)
-          expect(main_page.rank).to eq(nil)
-          expect(main_page.pendulum_scale).to eq(nil)
-          expect(main_page.attribute).to eq(nil)
-          expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::NORMAL)
-          expect(main_page.types).to match_array([])
-          expect(main_page.attack).to eq(nil)
-          expect(main_page.defense).to eq(nil)
-          expect(main_page.card_description).to eq(expected_description.strip)
-          expect(main_page.serial_number).to eq('83764718')
+        context 'Continuous' do
+          let(:card_db_name) { "Burning_Land" }
+          let(:expected_description) do
+            <<EOF
+When this card is activated: If there are any Field Spell Cards on the field, destroy them. During each player's Standby Phase: The turn player takes 500 damage.
+EOF
+          end
+
+          it 'should be a Continuous Spell' do
+            expect(main_page.card_db_name).to eq(card_db_name)
+            expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
+            expect(main_page.category).to eq(YugiohX2::Card::Categories::SPELL)
+            expect(main_page.card_name).to eq("Burning Land")
+            expect(main_page.level).to eq(nil)
+            expect(main_page.rank).to eq(nil)
+            expect(main_page.pendulum_scale).to eq(nil)
+            expect(main_page.attribute).to eq(nil)
+            expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::CONTINUOUS)
+            expect(main_page.types).to match_array([])
+            expect(main_page.attack).to eq(nil)
+            expect(main_page.defense).to eq(nil)
+            expect(main_page.card_description).to eq(expected_description.strip)
+            expect(main_page.serial_number).to eq('24294108')
+          end
+        end
+
+        context 'Equip' do
+          let(:card_db_name) { "Black_Pendant" }
+          let(:expected_description) do
+            <<EOF
+The equipped monster gains 500 ATK. When this card is sent from the field to the Graveyard: Inflict 500 damage to your opponent.
+EOF
+          end
+
+          it 'should be a Equip Spell' do
+            expect(main_page.card_db_name).to eq(card_db_name)
+            expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
+            expect(main_page.category).to eq(YugiohX2::Card::Categories::SPELL)
+            expect(main_page.card_name).to eq("Black Pendant")
+            expect(main_page.level).to eq(nil)
+            expect(main_page.rank).to eq(nil)
+            expect(main_page.pendulum_scale).to eq(nil)
+            expect(main_page.attribute).to eq(nil)
+            expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::EQUIP)
+            expect(main_page.types).to match_array([])
+            expect(main_page.attack).to eq(nil)
+            expect(main_page.defense).to eq(nil)
+            expect(main_page.card_description).to eq(expected_description.strip)
+            expect(main_page.serial_number).to eq('65169794')
+          end
+        end
+
+        context 'QuickPlay' do
+          let(:card_db_name) { "Mystical_Space_Typhoon" }
+          let(:expected_description) do
+            <<EOF
+Target 1 Spell/Trap Card on the field; destroy that target.
+EOF
+          end
+
+          it 'should be a Quick-Play Spell' do
+            expect(main_page.card_db_name).to eq(card_db_name)
+            expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
+            expect(main_page.category).to eq(YugiohX2::Card::Categories::SPELL)
+            expect(main_page.card_name).to eq("Mystical Space Typhoon")
+            expect(main_page.level).to eq(nil)
+            expect(main_page.rank).to eq(nil)
+            expect(main_page.pendulum_scale).to eq(nil)
+            expect(main_page.attribute).to eq(nil)
+            expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::QUICK_PLAY)
+            expect(main_page.types).to match_array([])
+            expect(main_page.attack).to eq(nil)
+            expect(main_page.defense).to eq(nil)
+            expect(main_page.card_description).to eq(expected_description.strip)
+            expect(main_page.serial_number).to eq('05318639')
+          end
+        end
+
+        context 'Field' do
+          let(:card_db_name) { "Mausoleum_of_White" }
+          let(:expected_description) do
+            <<EOF
+During your Main Phase, you can Normal Summon 1 Level 1 LIGHT Tuner monster in addition to your Normal Summon/Set. (You can only gain this effect once per turn.) Once per turn: You can target 1 face-up monster you control; send 1 Normal Monster from your hand or Deck to the Graveyard, and if you do, the targeted monster gains ATK and DEF equal to the Level of the monster sent to the Graveyard x 100, until the end of this turn (even if this card leaves the field). You can banish this card from your Graveyard; add 1 "Burst Stream of Destruction" from your Deck to your hand.
+EOF
+          end
+
+          it 'should be a Field Spell' do
+            expect(main_page.card_db_name).to eq(card_db_name)
+            expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
+            expect(main_page.category).to eq(YugiohX2::Card::Categories::SPELL)
+            expect(main_page.card_name).to eq("Mausoleum of White")
+            expect(main_page.level).to eq(nil)
+            expect(main_page.rank).to eq(nil)
+            expect(main_page.pendulum_scale).to eq(nil)
+            expect(main_page.attribute).to eq(nil)
+            expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::FIELD)
+            expect(main_page.types).to match_array([])
+            expect(main_page.attack).to eq(nil)
+            expect(main_page.defense).to eq(nil)
+            expect(main_page.card_description).to eq(expected_description.strip)
+            expect(main_page.serial_number).to eq('24382602')
+          end
+        end
+
+        context 'Ritual' do
+          let(:card_db_name) { "Black_Luster_Ritual" }
+          let(:expected_description) do
+            <<EOF
+This card is used to Ritual Summon "Black Luster Soldier". You must also Tribute monsters from your hand or field whose total Levels equal 8 or more.
+EOF
+          end
+
+          it 'should be a Ritual Spell' do
+            expect(main_page.card_db_name).to eq(card_db_name)
+            expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
+            expect(main_page.category).to eq(YugiohX2::Card::Categories::SPELL)
+            expect(main_page.card_name).to eq("Black Luster Ritual")
+            expect(main_page.level).to eq(nil)
+            expect(main_page.rank).to eq(nil)
+            expect(main_page.pendulum_scale).to eq(nil)
+            expect(main_page.attribute).to eq(nil)
+            expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::RITUAL)
+            expect(main_page.types).to match_array([])
+            expect(main_page.attack).to eq(nil)
+            expect(main_page.defense).to eq(nil)
+            expect(main_page.card_description).to eq(expected_description.strip)
+            expect(main_page.serial_number).to eq('55761792')
+          end
         end
       end
 
       context 'Trap Card' do
-        let(:card_db_name) { "Trap_Hole" }
-        let(:expected_description) do
-          <<EOF
+        context "Normal" do
+          let(:card_db_name) { "Trap_Hole" }
+          let(:expected_description) do
+            <<EOF
 When your opponent Normal or Flip Summons 1 monster with 1000 or more ATK: Target that monster; destroy that target.
 EOF
+          end
+
+          it 'should be Trap' do
+            expect(main_page.card_db_name).to eq(card_db_name)
+            expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
+            expect(main_page.category).to eq(YugiohX2::Card::Categories::TRAP)
+            expect(main_page.card_name).to eq("Trap Hole")
+            expect(main_page.level).to eq(nil)
+            expect(main_page.rank).to eq(nil)
+            expect(main_page.pendulum_scale).to eq(nil)
+            expect(main_page.attribute).to eq(nil)
+            expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::NORMAL)
+            expect(main_page.types).to match_array([])
+            expect(main_page.attack).to eq(nil)
+            expect(main_page.defense).to eq(nil)
+            expect(main_page.card_description).to eq(expected_description.strip)
+            expect(main_page.serial_number).to eq('04206964')
+          end
         end
 
-        it 'should be Trap' do
-          expect(main_page.card_db_name).to eq(card_db_name)
-          expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
-          expect(main_page.category).to eq(YugiohX2::Card::Categories::TRAP)
-          expect(main_page.card_name).to eq("Trap Hole")
-          expect(main_page.level).to eq(nil)
-          expect(main_page.rank).to eq(nil)
-          expect(main_page.pendulum_scale).to eq(nil)
-          expect(main_page.attribute).to eq(nil)
-          expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::NORMAL)
-          expect(main_page.types).to match_array([])
-          expect(main_page.attack).to eq(nil)
-          expect(main_page.defense).to eq(nil)
-          expect(main_page.card_description).to eq(expected_description.strip)
-          expect(main_page.serial_number).to eq('04206964')
+        context "Continuous" do
+          let(:card_db_name) { "Call_of_the_Haunted" }
+          let(:expected_description) do
+            <<EOF
+Activate this card by targeting 1 monster in your Graveyard; Special Summon that target in Attack Position. When this card leaves the field, destroy that target. When that target is destroyed, destroy this card.
+EOF
+          end
+
+          it 'should be a Continuous Trap' do
+            expect(main_page.card_db_name).to eq(card_db_name)
+            expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
+            expect(main_page.category).to eq(YugiohX2::Card::Categories::TRAP)
+            expect(main_page.card_name).to eq("Call of the Haunted")
+            expect(main_page.level).to eq(nil)
+            expect(main_page.rank).to eq(nil)
+            expect(main_page.pendulum_scale).to eq(nil)
+            expect(main_page.attribute).to eq(nil)
+            expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::CONTINUOUS)
+            expect(main_page.types).to match_array([])
+            expect(main_page.attack).to eq(nil)
+            expect(main_page.defense).to eq(nil)
+            expect(main_page.card_description).to eq(expected_description.strip)
+            expect(main_page.serial_number).to eq('97077563')
+          end
+        end
+
+        context "Counter" do
+          let(:card_db_name) { "Solemn_Judgment" }
+          let(:expected_description) do
+            <<EOF
+When a monster would be Summoned, OR a Spell/Trap Card is activated: Pay half your Life Points; negate the Summon or activation, and if you do, destroy that card.
+EOF
+          end
+
+          it 'should be Counter Trap' do
+            expect(main_page.card_db_name).to eq(card_db_name)
+            expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
+            expect(main_page.category).to eq(YugiohX2::Card::Categories::TRAP)
+            expect(main_page.card_name).to eq("Solemn Judgment")
+            expect(main_page.level).to eq(nil)
+            expect(main_page.rank).to eq(nil)
+            expect(main_page.pendulum_scale).to eq(nil)
+            expect(main_page.attribute).to eq(nil)
+            expect(main_page.property).to eq(YugiohX2::NonMonster::Properties::COUNTER)
+            expect(main_page.types).to match_array([])
+            expect(main_page.attack).to eq(nil)
+            expect(main_page.defense).to eq(nil)
+            expect(main_page.card_description).to eq(expected_description.strip)
+            expect(main_page.serial_number).to eq('41420027')
+          end
         end
       end
     end
