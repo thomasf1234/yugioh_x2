@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module YugiohX2Lib
+module YugiohX2Spec
   RSpec.describe YugiohX2Lib::ExternalPages::GalleryPage do
     describe 'card_type' do
       let(:gallery_page) { YugiohX2Lib::ExternalPages::MainPage.new(card_db_name).gallery_page }
@@ -63,4 +63,5 @@ module YugiohX2Lib
     end
   end
 end
+
 

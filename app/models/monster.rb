@@ -60,7 +60,7 @@ module YugiohX2
 
     self.primary_key = 'card_id'
 
-    has_many :abilities, -> { where(name: Property::Names::ABILITY) }, class_name: 'Property', foreign_key: 'card_id'
+    has_many :monster_types, class_name: 'MonsterType', foreign_key: 'card_id', dependent: :destroy
 
     after_initialize :readonly!
   end

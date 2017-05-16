@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-module YugiohX2Lib
+module YugiohX2Spec
   RSpec.describe YugiohX2Lib::ExternalPages::MainPage do
-    describe 'card_type' do
+    describe 'main_page' do
       let(:main_page) { YugiohX2Lib::ExternalPages::MainPage.new(card_db_name) }
 
       context 'Normal Monster' do
@@ -100,7 +100,7 @@ FLIP: You can target up to 2 monsters on the field; return those targets to the 
 EOF
           end
 
-          it 'should be Effect' do
+          it 'should be Effect Flip' do
             expect(main_page.card_db_name).to eq(card_db_name)
             expect(main_page.card_type).to eq(YugiohX2::Card::Types::MONSTER)
             expect(main_page.category).to eq(YugiohX2::Card::Categories::EFFECT)
@@ -128,7 +128,7 @@ Cannot be Normal Summoned/Set. Cannot be Special Summoned unless you control "To
 EOF
           end
 
-          it 'should be Effect' do
+          it 'should be Effect Toon' do
             expect(main_page.card_db_name).to eq(card_db_name)
             expect(main_page.card_type).to eq(YugiohX2::Card::Types::MONSTER)
             expect(main_page.category).to eq(YugiohX2::Card::Categories::EFFECT)
@@ -155,7 +155,7 @@ This card cannot be Special Summoned. This card returns to its owner's hand duri
 EOF
           end
 
-          it 'should be Effect' do
+          it 'should be Effect Spirit' do
             expect(main_page.card_db_name).to eq(card_db_name)
             expect(main_page.card_type).to eq(YugiohX2::Card::Types::MONSTER)
             expect(main_page.category).to eq(YugiohX2::Card::Categories::EFFECT)
@@ -182,7 +182,7 @@ Once per turn, you can either: Target 1 "X-Head Cannon" you control; equip this 
 EOF
           end
 
-          it 'should be Effect' do
+          it 'should be Effect Union' do
             expect(main_page.card_db_name).to eq(card_db_name)
             expect(main_page.card_type).to eq(YugiohX2::Card::Types::MONSTER)
             expect(main_page.category).to eq(YugiohX2::Card::Categories::EFFECT)
@@ -211,7 +211,7 @@ This card is treated as a Normal Monster while face-up on the field or in the Gr
 EOF
           end
 
-          it 'should be Effect' do
+          it 'should be Effect Gemini' do
             expect(main_page.card_db_name).to eq(card_db_name)
             expect(main_page.card_type).to eq(YugiohX2::Card::Types::MONSTER)
             expect(main_page.category).to eq(YugiohX2::Card::Categories::EFFECT)
@@ -238,7 +238,7 @@ If this card is sent to the Graveyard for a Synchro Summon, you can add 1 "Assau
 EOF
           end
 
-          it 'should be Effect' do
+          it 'should be Effect Tuner' do
             expect(main_page.card_db_name).to eq(card_db_name)
             expect(main_page.card_type).to eq(YugiohX2::Card::Types::MONSTER)
             expect(main_page.category).to eq(YugiohX2::Card::Categories::EFFECT)
@@ -881,7 +881,7 @@ When your opponent Normal or Flip Summons 1 monster with 1000 or more ATK: Targe
 EOF
           end
 
-          it 'should be Trap' do
+          it 'should be a Normal Trap' do
             expect(main_page.card_db_name).to eq(card_db_name)
             expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
             expect(main_page.category).to eq(YugiohX2::Card::Categories::TRAP)
@@ -933,7 +933,7 @@ When a monster would be Summoned, OR a Spell/Trap Card is activated: Pay half yo
 EOF
           end
 
-          it 'should be Counter Trap' do
+          it 'should be a Counter Trap' do
             expect(main_page.card_db_name).to eq(card_db_name)
             expect(main_page.card_type).to eq(YugiohX2::Card::Types::NON_MONSTER)
             expect(main_page.category).to eq(YugiohX2::Card::Categories::TRAP)

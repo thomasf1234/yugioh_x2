@@ -18,10 +18,6 @@ module YugiohX2
       ALL = constants.collect { |const| module_eval(const.to_s) }
     end
 
-    has_many :properties, dependent: :destroy
-
     validates_presence_of :name, :description
-
-    after_initialize :readonly!
   end
 end
