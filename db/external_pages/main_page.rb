@@ -12,8 +12,8 @@ module YugiohX2Lib
         @card_db_name = card_db_name
         @page = Nokogiri::HTML(retry_open("#{ExternalPages::YUGIOH_WIKIA_URL}/wiki/#{@card_db_name}"))
         @card_table = CardTable.new(@page.xpath("//table[@class='cardtable']"))
-        # gallery_end_point = @page.xpath("//td[@id='cardtablelinks']").xpath("./a[contains(@title,'Card Gallery')]").attribute('href').value.strip
-        # @gallery_page ||= GalleryPage.new(Nokogiri::HTML(retry_open(YUGIOH_WIKIA_URL + gallery_end_point)))
+        gallery_end_point = @page.xpath("//td[@id='cardtablelinks']").xpath(".//a[contains(@title,'Card Gallery')]").attribute('href').value.strip
+        @gallery_page = GalleryPage.new(Nokogiri::HTML(retry_open(YUGIOH_WIKIA_URL + gallery_end_point)))
       end
 
       def card_type
