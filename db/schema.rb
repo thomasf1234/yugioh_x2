@@ -34,20 +34,4 @@ ActiveRecord::Schema.define do
       table.column :card_id, :integer
     end
   end
-
-  unless ActiveRecord::Base.connection.data_sources.include?('card_effects')
-    create_table :card_effects do |table|
-      table.column :type, :string
-      table.column :script_path, :string
-      table.column :card_id, :integer
-    end
-  end
-
-  unless ActiveRecord::Base.connection.data_sources.include?('actions')
-    create_table :actions do |table|
-      table.column :type, :string
-      table.column :spell_speed, :integer
-      table.column :effect_id, :integer
-    end
-  end
 end
