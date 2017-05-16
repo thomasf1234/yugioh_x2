@@ -42,6 +42,14 @@ module YugiohX2Lib
             YugiohX2::Card::Categories::XYZ
           elsif _types.include?(YugiohX2::Card::Categories::EFFECT)
             YugiohX2::Card::Categories::EFFECT
+          elsif _types.include?(YugiohX2::Monster::Abilities::TOON)
+            YugiohX2::Card::Categories::EFFECT
+          elsif _types.include?(YugiohX2::Monster::Abilities::SPIRIT)
+            YugiohX2::Card::Categories::EFFECT
+          elsif _types.include?(YugiohX2::Monster::Abilities::GEMINI)
+            YugiohX2::Card::Categories::EFFECT
+          elsif !card_effect_types.empty?
+            YugiohX2::Card::Categories::EFFECT
           else
             YugiohX2::Card::Categories::NORMAL
           end
