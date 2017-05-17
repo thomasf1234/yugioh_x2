@@ -1,19 +1,19 @@
 require 'nokogiri'
-require 'open-uri'
 
 module YugiohX2Lib
   module ExternalPages
     YUGIOH_WIKIA_URL = 'http://yugioh.wikia.com'
+    CARD_GALLERY_URL = YUGIOH_WIKIA_URL + '/wiki/Category:Card_Gallery'
 
     class MainPage
       attr_reader :card_db_name, :gallery_page, :card_table
 
       def initialize(card_db_name)
         @card_db_name = card_db_name
-        @page = Nokogiri::HTML(retry_open("#{ExternalPages::YUGIOH_WIKIA_URL}/wiki/#{@card_db_name}"))
+        @page = Nokogiri::HTML(Utils.retry_open("#{ExternalPages::YUGIOH_WIKIA_URL}/wiki/#{@card_db_name}"))
         @card_table = CardTable.new(@page.xpath("//table[@class='cardtable']"))
         gallery_end_point = @page.xpath("//td[@id='cardtablelinks']").xpath(".//a[contains(@title,'Card Gallery')]").attribute('href').value.strip
-        @gallery_page = GalleryPage.new(Nokogiri::HTML(retry_open(YUGIOH_WIKIA_URL + gallery_end_point)))
+        @gallery_page = GalleryPage.new(Nokogiri::HTML(Utils.retry_open(YUGIOH_WIKIA_URL + gallery_end_point)))
       end
 
       def card_type
@@ -70,7 +70,7 @@ module YugiohX2Lib
 
       def level
         if @card_table.contains_key?('Level')
-          @card_table.row_value('Level').strip
+          @card_table.row_value('Level').strip.to_i
         else
           nil
         end
@@ -78,7 +78,7 @@ module YugiohX2Lib
 
       def rank
         if @card_table.contains_key?('Rank')
-          @card_table.row_value('Rank').strip
+          @card_table.row_value('Rank').strip.to_i
         else
           nil
         end
@@ -86,7 +86,7 @@ module YugiohX2Lib
 
       def pendulum_scale
         if @card_table.contains_key?('Pendulum Scale')
-          @card_table.row_value('Pendulum Scale').strip
+          @card_table.row_value('Pendulum Scale').strip.to_i
         else
           nil
         end
@@ -155,10 +155,6 @@ module YugiohX2Lib
       end
 
       private
-      def retry_open(url)
-        YugiohX2Lib::Retry.new(5, 1).start { open(url) }
-      end
-
       class CardTable
         def initialize(card_table)
           @card_table = card_table

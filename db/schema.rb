@@ -38,6 +38,7 @@ ActiveRecord::Schema.define do
 
   unless ActiveRecord::Base.connection.data_sources.include?('artworks')
     create_table :artworks do |table|
+      table.column :source_url, :string
       table.column :image_path, :string
       table.column :card_id, :integer
     end

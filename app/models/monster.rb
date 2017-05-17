@@ -60,7 +60,8 @@ module YugiohX2
 
     self.primary_key = 'card_id'
 
-    has_many :monster_types, class_name: 'MonsterType', foreign_key: 'card_id', dependent: :destroy
+    has_many :monster_types, foreign_key: 'card_id'
+    has_many :artworks, foreign_key: 'card_id'
 
     after_initialize :readonly!
   end

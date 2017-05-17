@@ -12,6 +12,9 @@ module YugiohX2
     end
 
     self.primary_key = 'card_id'
+
+    has_many :artworks, foreign_key: 'card_id'
+
     after_initialize :readonly!
   end
 end

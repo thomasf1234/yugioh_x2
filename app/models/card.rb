@@ -18,6 +18,8 @@ module YugiohX2
       ALL = constants.collect { |const| module_eval(const.to_s) }
     end
 
-    validates_presence_of :name, :description
+    validates_presence_of :db_name, :name, :description
+
+    has_many :artworks, dependent: :destroy
   end
 end
