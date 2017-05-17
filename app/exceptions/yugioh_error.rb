@@ -1,2 +1,4 @@
-class YugiohError < RuntimeError
+module YugiohX2
+  class YugiohError < RuntimeError
+  end
 end

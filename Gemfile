@@ -3,8 +3,9 @@ source 'https://rubygems.org'
 gem 'rake'
 gem 'activerecord'
 gem 'sqlite3'
+gem 'nokogiri'
 
-group :test do
+group :development, :test do
   gem 'rspec'
   gem 'pry'
 end
