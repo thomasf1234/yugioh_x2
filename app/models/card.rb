@@ -3,6 +3,7 @@ module YugiohX2
     module Types
       MONSTER = 'Monster'
       NON_MONSTER = 'NonMonster'
+      ALL = constants.collect { |const| module_eval(const.to_s) }
     end
 
     module Categories
@@ -19,6 +20,8 @@ module YugiohX2
     end
 
     validates_presence_of :db_name, :name, :description
+    validates :category, inclusion: { in: Categories::ALL, message: "%{value} is not a valid category" }
+    validates :card_type, inclusion: { in: Types::ALL, message: "%{value} is not a valid card_type" }
 
     has_many :artworks, dependent: :destroy
   end

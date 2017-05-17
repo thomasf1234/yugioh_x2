@@ -1,29 +1,51 @@
 require 'nokogiri'
 require 'fileutils'
 
+#TODO : card validations on properties, types, category inclusion and testing
+
 module YugiohX2Lib
   module Jobs
     class SyncCards
       def perform
         db_names = fetch_db_names
         db_names.each do |db_name|
-          old_card = YugiohX2::Card.find_by_db_name(db_name)
-
-          if old_card.nil?
-            begin
-              sync_card(db_name)
-              YugiohX2::SLogger.instance.debug("Synced #{db_name}", :green)
-            rescue => e
-              YugiohX2::SLogger.instance.debug("Failed to sync #{db_name}", :red)
-              YugiohX2::SLogger.instance.debug("#{e.class.name} : #{e.message}", :red)
-              YugiohX2::SLogger.instance.debug(e.backtrace.join("\n"), :red)
-            end
-          else
-            YugiohX2::SLogger.instance.debug("Skipping #{db_name}: Already exists", :yellow)
-          end
+          sync(db_name)
         end
       end
 
+      def sync(db_name)
+        YugiohX2::SLogger.instance.debug("***************Starting sync for #{db_name}")
+
+        old_card = YugiohX2::Card.find_by_db_name(db_name)
+
+        if old_card.nil?
+          begin
+            ActiveRecord::Base.transaction do
+              sync_card(db_name)
+            end
+
+            if YugiohX2::Card.exists?(db_name: db_name)
+              YugiohX2::SLogger.instance.debug("Successfully synced #{db_name}", :green)
+            else
+              YugiohX2::SLogger.instance.debug("Rollback for #{db_name}", :yellow)
+            end
+          rescue YugiohX2Lib::AnimeCardFound
+            YugiohX2::SLogger.instance.debug("Skipping #{db_name}: Anime Card", :yellow)
+          rescue ActiveRecord::RecordInvalid => rie
+            YugiohX2::SLogger.instance.debug("Skipping #{db_name}: #{rie.class.name} : #{rie.message}", :yellow)
+          rescue => e
+            YugiohX2::SLogger.instance.debug("Failed to sync #{db_name}", :red)
+            YugiohX2::SLogger.instance.debug("#{e.class.name} : #{e.message}", :red)
+            YugiohX2::SLogger.instance.debug(e.backtrace.join("\n"), :red)
+          end
+        else
+          YugiohX2::SLogger.instance.debug("Skipping #{db_name}: Already exists", :yellow)
+        end
+
+        YugiohX2::SLogger.instance.debug("***************Finished sync for #{db_name}")
+      end
+
+      private
       def sync_card(db_name)
         main_page = ExternalPages::MainPage.new(db_name)
 
@@ -42,6 +64,7 @@ module YugiohX2Lib
             serial_number: main_page.serial_number,
             description: main_page.card_description,
         }
+
 
         card = YugiohX2::Card.create!(card_create_params)
 

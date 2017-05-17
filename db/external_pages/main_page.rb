@@ -11,21 +11,37 @@ module YugiohX2Lib
       def initialize(card_db_name)
         @card_db_name = card_db_name
         @page = Nokogiri::HTML(Utils.retry_open("#{ExternalPages::YUGIOH_WIKIA_URL}/wiki/#{@card_db_name}"))
-        @card_table = CardTable.new(@page.xpath("//table[@class='cardtable']"))
-        gallery_end_point = @page.xpath("//td[@id='cardtablelinks']").xpath(".//a[contains(@title,'Card Gallery')]").attribute('href').value.strip
-        @gallery_page = GalleryPage.new(Nokogiri::HTML(Utils.retry_open(YUGIOH_WIKIA_URL + gallery_end_point)))
+
+        card_table_element = @page.xpath("//table[@class='cardtable']")
+        if card_table_element.empty?
+          raise AnimeCardFound
+        else
+          @card_table = CardTable.new(card_table_element)
+          gallery_end_point = @page.xpath("//td[@id='cardtablelinks']").xpath(".//a[contains(@title,'Card Gallery')]").attribute('href').value.strip
+          @gallery_page = GalleryPage.new(Nokogiri::HTML(Utils.retry_open(YUGIOH_WIKIA_URL + gallery_end_point)))
+        end
       end
 
       def card_type
-        if @card_table.row_value('Card type').strip == YugiohX2::Card::Types::MONSTER
-          YugiohX2::Card::Types::MONSTER
+        if @card_table.contains_key?('Card type')
+          _card_type = @card_table.row_value('Card type').strip
+
+          if _card_type == YugiohX2::Card::Types::MONSTER
+            YugiohX2::Card::Types::MONSTER
+          else
+            YugiohX2::Card::Types::NON_MONSTER
+          end
         else
-          YugiohX2::Card::Types::NON_MONSTER
+          nil
         end
       end
 
       def category
-        _card_type = @card_table.row_value('Card type').strip
+        if @card_table.contains_key?('Card type')
+          _card_type = @card_table.row_value('Card type').strip
+        else
+          return nil
+        end
 
         if _card_type == YugiohX2::Card::Types::MONSTER
           _types = types
@@ -65,7 +81,11 @@ module YugiohX2Lib
       end
 
       def card_name
-        @card_table.row_value('English').strip
+        if @card_table.contains_key?('English')
+          @card_table.row_value('English').strip
+        else
+          nil
+        end
       end
 
       def level
@@ -135,7 +155,7 @@ module YugiohX2Lib
       end
 
       def card_description
-        @card_table.get_description.strip
+        @card_table.get_description
       end
 
       def serial_number
@@ -178,11 +198,16 @@ module YugiohX2Lib
 
         def get_description
           row = @rows.detect { |row| !row.xpath(".//b[text()='Card descriptions']").empty? }
-          child = row.children.first.children.detect { |child| !child.xpath(".//div[text()='English']").empty? }
-          child.xpath(".//td[@class='navbox-list']").children.inject('') do |result, description_segment|
-            result += (description_segment.name == 'br') ? "\n" : description_segment.text
-            result
-          end.strip
+
+          if row.nil?
+            nil
+          else
+            child = row.children.first.children.detect { |child| !child.xpath(".//div[text()='English']").empty? }
+            child.xpath(".//td[@class='navbox-list']").children.inject('') do |result, description_segment|
+              result += (description_segment.name == 'br') ? "\n" : description_segment.text
+              result
+            end.strip
+          end
         end
       end
     end

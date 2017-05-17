@@ -3,7 +3,7 @@ require 'set'
 module YugiohX2Lib
   module ExternalPages
     class GalleryPage
-      TAG_FORCE_REGEX = /-TF(0\d|S)-JP-VG(-\d)?\./
+      TAG_FORCE_REGEX = /-TF(0\d|S)-(JP|EN)-VG(-\d)?\./
       YUGIOH_COM_REGEX = /-OW(-\d)?\./
 
       attr_reader :image_urls

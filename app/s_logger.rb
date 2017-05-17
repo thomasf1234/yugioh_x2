@@ -12,7 +12,7 @@ module YugiohX2
     include Singleton
     attr_reader :file_path
 
-    LOG_FILE_PATH = File.expand_path(File.join("log", "#{ENV['LOG']}.log"))
+    LOG_FILE_PATH = File.expand_path(File.join("log", "#{ENV['ENV']}.log"))
 
     def initialize
       super(LOG_FILE_PATH)
