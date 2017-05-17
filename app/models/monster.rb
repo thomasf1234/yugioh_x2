@@ -1,5 +1,15 @@
 module YugiohX2
   class Monster < ActiveRecord::Base
+    module Types
+      NORMAL = 'Normal'
+      EFFECT = 'Effect'
+      FUSION = 'Fusion'
+      RITUAL = 'Ritual'
+      SYNCHRO = 'Synchro'
+      XYZ = 'Xyz'
+      ALL = constants.collect { |const| module_eval(const.to_s) }
+    end
+
     module Elements
       DARK = 'DARK'
       DIVINE = 'DIVINE'
@@ -50,7 +60,8 @@ module YugiohX2
 
     self.primary_key = 'card_id'
 
-    has_many :abilities, -> { where(name: Property::Names::ABILITY) }, class_name: 'Property', foreign_key: 'card_id'
+    has_many :monster_types, foreign_key: 'card_id'
+    has_many :artworks, foreign_key: 'card_id'
 
     after_initialize :readonly!
   end

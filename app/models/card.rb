@@ -1,5 +1,11 @@
 module YugiohX2
   class Card < ActiveRecord::Base
+    module Types
+      MONSTER = 'Monster'
+      NON_MONSTER = 'NonMonster'
+      ALL = constants.collect { |const| module_eval(const.to_s) }
+    end
+
     module Categories
       NORMAL = 'Normal'
       EFFECT = 'Effect'
@@ -7,15 +13,16 @@ module YugiohX2
       RITUAL = 'Ritual'
       SYNCHRO = 'Synchro'
       XYZ = 'Xyz'
+      PENDULUM = 'Pendulum'
       SPELL = 'Spell'
       TRAP = 'Trap'
       ALL = constants.collect { |const| module_eval(const.to_s) }
     end
 
-    has_many :properties, dependent: :destroy
+    validates_presence_of :db_name, :name, :description
+    validates :category, inclusion: { in: Categories::ALL, message: "%{value} is not a valid category" }
+    validates :card_type, inclusion: { in: Types::ALL, message: "%{value} is not a valid card_type" }
 
-    validates_presence_of :name, :description
-
-    after_initialize :readonly!
+    has_many :artworks, dependent: :destroy
   end
 end
