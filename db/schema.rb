@@ -25,7 +25,16 @@ ActiveRecord::Schema.define do
       table.column :description, :string
 
       table.index :serial_number
-      table.index :name, unique: true
+      table.index :db_name, unique: true
+    end
+  end
+
+  unless ActiveRecord::Base.connection.data_sources.include?('unusable_cards')
+    create_table :unusable_cards do |table|
+      table.column :db_name,     :string
+      table.column :reason,     :string
+
+      table.index :db_name, unique: true
     end
   end
 

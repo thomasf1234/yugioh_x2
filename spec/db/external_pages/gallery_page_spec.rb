@@ -9,7 +9,7 @@ module YugiohX2Spec
         let(:card_db_name) { 'Obelisk_the_Tormentor' }
 
         it "should contain the correct urls" do
-          expect(gallery_page.fetch_image_urls.count).to eq(4)
+          expect(gallery_page.fetch_image_urls.count).to eq(5)
         end
       end
 
@@ -49,7 +49,7 @@ module YugiohX2Spec
         let(:card_db_name) { 'The_Winged_Dragon_of_Ra' }
 
         it "should contain the correct urls" do
-          expect(gallery_page.fetch_image_urls.count).to eq(4)
+          expect(gallery_page.fetch_image_urls.count).to eq(5)
         end
       end
 
@@ -57,7 +57,7 @@ module YugiohX2Spec
         let(:card_db_name) { 'Blue-Eyes_White_Dragon' }
 
         it "should contain the correct urls" do
-          expect(gallery_page.fetch_image_urls.count).to eq(8)
+          expect(gallery_page.fetch_image_urls.count).to eq(9)
         end
       end
     end
