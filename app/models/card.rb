@@ -24,5 +24,6 @@ module YugiohX2
     validates :card_type, inclusion: { in: Types::ALL, message: "%{value} is not a valid card_type" }
 
     has_many :artworks, dependent: :destroy
+    has_many :monster_types, foreign_key: 'card_id', dependent: :destroy
   end
 end

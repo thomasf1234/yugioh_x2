@@ -449,6 +449,132 @@ EOF
         end
       end
 
+      context 'Game only Card' do
+        context 'GX only' do
+          let(:card_db_name) { "Clear_Vicious_Knight" }
+          let(:expected_description) do
+            <<EOF
+When this card is face-up card on the field, do not treat its Attribute as DARK. While there are monsters on your opponent's field, you can Normal Summon this card with 1 Tribute. If you control no other cards and have no cards in your hand, this card gains ATK equal to the original ATK of the face-up monster with the highest original ATK on your opponent's field.
+EOF
+          end
+
+          it "should sync" do
+            Helper.run_job(card_db_name)
+
+            expect(YugiohX2::Monster.count).to eq(1)
+            expect(YugiohX2::NonMonster.count).to eq(0)
+            expect(YugiohX2::Artwork.count).to eq(1)
+            expect(YugiohX2::MonsterType.count).to eq(2)
+
+            card = YugiohX2::Monster.find_by_db_name(card_db_name)
+
+            expect(card.db_name).to eq(card_db_name)
+            expect(card.category).to eq(YugiohX2::Card::Categories::EFFECT)
+            expect(card.name).to eq("Clear Vicious Knight")
+            expect(card.level).to eq(7)
+            expect(card.rank).to eq(nil)
+            expect(card.pendulum_scale).to eq(nil)
+            expect(card.card_attribute).to eq(YugiohX2::Monster::Elements::DARK)
+            expect(card.attack).to eq('2300')
+            expect(card.defense).to eq('1100')
+            expect(card.description).to eq(expected_description.strip)
+            expect(card.serial_number).to eq(nil)
+            expect(card.monster_types.map(&:name)).to match_array([YugiohX2::Monster::Species::WARRIOR,
+                                                                   YugiohX2::Card::Categories::EFFECT])
+            image_paths = card.artworks.map(&:image_path)
+            expect(image_paths).to match_array(["db/data/test/artworks/#{card_db_name}/ClearViciousKnight-GX06-EN-VG.jpg"])
+
+            #Files are not empty
+            image_paths.each do |image_path|
+              expect(File.zero?(image_path)).to eq(false)
+            end
+          end
+        end
+
+        context '5D only' do
+          let(:card_db_name) { "Ashoka_Pillar" }
+          let(:expected_description) do
+            <<EOF
+When this card is destroyed, takes 2000 points of damage.
+EOF
+          end
+
+          it "should sync" do
+            Helper.run_job(card_db_name)
+
+            expect(YugiohX2::Monster.count).to eq(1)
+            expect(YugiohX2::NonMonster.count).to eq(0)
+            expect(YugiohX2::Artwork.count).to eq(2)
+            expect(YugiohX2::MonsterType.count).to eq(2)
+
+            card = YugiohX2::Monster.find_by_db_name(card_db_name)
+
+            expect(card.db_name).to eq(card_db_name)
+            expect(card.category).to eq(YugiohX2::Card::Categories::EFFECT)
+            expect(card.name).to eq("Ashoka Pillar")
+            expect(card.level).to eq(3)
+            expect(card.rank).to eq(nil)
+            expect(card.pendulum_scale).to eq(nil)
+            expect(card.card_attribute).to eq(YugiohX2::Monster::Elements::EARTH)
+            expect(card.attack).to eq('0')
+            expect(card.defense).to eq('2200')
+            expect(card.description).to eq(expected_description.strip)
+            expect(card.serial_number).to eq(nil)
+            expect(card.monster_types.map(&:name)).to match_array([YugiohX2::Monster::Species::ROCK,
+                                                                   YugiohX2::Card::Categories::EFFECT])
+            image_paths = card.artworks.map(&:image_path)
+            expect(image_paths).to match_array(["db/data/test/artworks/#{card_db_name}/AshokaPillar-TF04-JP-VG.png",
+                                                "db/data/test/artworks/#{card_db_name}/AshokaPillar-OW.png"])
+
+            #Files are not empty
+            image_paths.each do |image_path|
+              expect(File.zero?(image_path)).to eq(false)
+            end
+          end
+        end
+      end
+
+      context 'Duplicate Name' do
+        context 'Different db_name' do
+          let(:card_db_name) { 'Dark_Magician_(Arkana)' }
+          let(:expected_description) do
+            <<EOF
+The ultimate wizard in terms of attack and defense.
+EOF
+          end
+
+          it "should sync" do
+            Helper.run_job(card_db_name)
+
+            expect(YugiohX2::Monster.count).to eq(1)
+            expect(YugiohX2::Artwork.count).to eq(1)
+            expect(YugiohX2::MonsterType.count).to eq(1)
+
+            card = YugiohX2::Monster.find_by_db_name(card_db_name)
+
+            expect(card.db_name).to eq(card_db_name)
+            expect(card.category).to eq(YugiohX2::Card::Categories::NORMAL)
+            expect(card.name).to eq('Dark Magician')
+            expect(card.level).to eq(7)
+            expect(card.rank).to eq(nil)
+            expect(card.pendulum_scale).to eq(nil)
+            expect(card.card_attribute).to eq(YugiohX2::Monster::Elements::DARK)
+            expect(card.attack).to eq('2500')
+            expect(card.defense).to eq('2100')
+            expect(card.description).to eq(expected_description.strip)
+            expect(card.serial_number).to eq('36996508')
+            expect(card.monster_types.map(&:name)).to match_array([YugiohX2::Monster::Species::SPELLCASTER])
+            image_paths = card.artworks.map(&:image_path)
+            expect(image_paths).to match_array(["db/data/test/artworks/#{card_db_name}/DarkMagician-TF05-JP-VG-3.png"])
+
+            #Files are not empty
+            image_paths.each do |image_path|
+              expect(File.zero?(image_path)).to eq(false)
+            end
+          end
+        end
+      end
+
       context 'Anime Card' do
         let(:card_db_name) { "Advanced_Crystal_Beast_Sapphire_Pegasus" }
 
@@ -465,6 +591,19 @@ EOF
       context 'Invalid Card' do
         context 'No description' do
           let(:card_db_name) { "3-eyed_Vespider" }
+
+          it "skips" do
+            expect { Helper.run_job(card_db_name) }.to_not raise_error
+
+            expect(YugiohX2::Monster.count).to eq(0)
+            expect(YugiohX2::NonMonster.count).to eq(0)
+            expect(YugiohX2::Artwork.count).to eq(0)
+            expect(YugiohX2::MonsterType.count).to eq(0)
+          end
+        end
+
+        context 'From an old game' do
+          let(:card_db_name) { "3-Beckon_to_Darkness" }
 
           it "skips" do
             expect { Helper.run_job(card_db_name) }.to_not raise_error

@@ -4,6 +4,7 @@ module YugiohX2Lib
   module ExternalPages
     YUGIOH_WIKIA_URL = 'http://yugioh.wikia.com'
     CARD_GALLERY_URL = YUGIOH_WIKIA_URL + '/wiki/Category:Card_Gallery'
+    XPATH_QUOTE = "&apos;"
 
     class MainPage
       attr_reader :card_db_name, :gallery_page, :card_table
@@ -202,11 +203,19 @@ module YugiohX2Lib
           if row.nil?
             nil
           else
-            child = row.children.first.children.detect { |child| !child.xpath(".//div[text()='English']").empty? }
-            child.xpath(".//td[@class='navbox-list']").children.inject('') do |result, description_segment|
-              result += (description_segment.name == 'br') ? "\n" : description_segment.text
-              result
-            end.strip
+            child = row.children.first.children.detect do |child|
+              !child.xpath(".//div[contains(text(),'English')]").empty? ||
+                  !child.xpath(".//a[contains(@title,'Tag Force')]").empty?
+            end
+
+            if child.nil?
+              return nil
+            else
+              child.xpath(".//td[@class='navbox-list']").children.inject('') do |result, description_segment|
+                result += (description_segment.name == 'br') ? "\n" : description_segment.text
+                result
+              end.strip
+            end
           end
         end
       end

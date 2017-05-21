@@ -11,5 +11,11 @@ module YugiohX2Lib
         Time.now - @start_time
       end
     end
+
+    def time_it
+      start
+      yield
+      '%.2f' % get_elapsed_time
+    end
   end
 end

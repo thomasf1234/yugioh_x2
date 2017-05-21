@@ -4,6 +4,7 @@ module YugiohX2Lib
   module ExternalPages
     class GalleryPage
       TAG_FORCE_REGEX = /-TF(0\d|S)-(JP|EN)-VG(-\d)?\./
+      GX_REGEX = /-GX(0\d|S)-(JP|EN)-VG(-\d)?\./
       YUGIOH_COM_REGEX = /-OW(-\d)?\./
 
       attr_reader :image_urls
@@ -14,7 +15,7 @@ module YugiohX2Lib
       end
 
       def fetch_image_urls
-        [TAG_FORCE_REGEX, YUGIOH_COM_REGEX].each do |regex|
+        [TAG_FORCE_REGEX, YUGIOH_COM_REGEX, GX_REGEX].each do |regex|
           image_elements = @page.xpath("//div[@id='mw-content-text']").xpath(".//img[@class='thumbimage']")
 
           image_elements.each do |image_element|
