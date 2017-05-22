@@ -7,5 +7,7 @@ module YugiohX2
     def self.encrypt_password(username, password)
       "{SHA256}#{Digest::SHA256.digest("#{username}:#{password}")}"
     end
+
+    has_one :session
   end
 end

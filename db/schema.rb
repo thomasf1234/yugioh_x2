@@ -1,26 +1,37 @@
 ActiveRecord::Schema.define do
   unless ActiveRecord::Base.connection.data_sources.include?('users')
     create_table :users do |table|
-      table.column :username,     :string
+      table.column :username, :string
       table.column :encrypted_password, :binary
 
       table.index :username, unique: true
     end
   end
 
+  unless ActiveRecord::Base.connection.data_sources.include?('sessions')
+    create_table :sessions do |table|
+      table.column :user_id, :string
+      table.column :uuid, :string
+      table.column :remote_ip, :string
+      table.column :expires_at, :datetime
+
+      table.index :user_id, unique: true
+    end
+  end
+
   unless ActiveRecord::Base.connection.data_sources.include?('cards')
     create_table :cards do |table|
-      table.column :db_name,     :string
-      table.column :card_type,     :string
-      table.column :category,     :string
-      table.column :name,     :string
-      table.column :level,     :integer
-      table.column :rank,     :integer
-      table.column :pendulum_scale,     :integer
-      table.column :card_attribute,     :string
-      table.column :property,     :string
-      table.column :attack,     :string
-      table.column :defense,     :string
+      table.column :db_name, :string
+      table.column :card_type, :string
+      table.column :category, :string
+      table.column :name, :string
+      table.column :level, :integer
+      table.column :rank, :integer
+      table.column :pendulum_scale, :integer
+      table.column :card_attribute, :string
+      table.column :property, :string
+      table.column :attack, :string
+      table.column :defense, :string
       table.column :serial_number, :string
       table.column :description, :string
 
@@ -31,8 +42,8 @@ ActiveRecord::Schema.define do
 
   unless ActiveRecord::Base.connection.data_sources.include?('unusable_cards')
     create_table :unusable_cards do |table|
-      table.column :db_name,     :string
-      table.column :reason,     :string
+      table.column :db_name, :string
+      table.column :reason, :string
 
       table.index :db_name, unique: true
     end

@@ -21,6 +21,15 @@ module YugiohX2Spec
         end
       end
 
+      describe "associations" do
+        let(:user) { YugiohX2::User.create(username: "TestUser", encrypted_password: "{SHA256}some_encrypted_password") }
+
+        it "has one session" do
+          session = YugiohX2::Session.create(user_id: user.id, remote_ip: '127.0.0.1')
+          expect(user.session).to eq(session)
+        end
+      end
+
       describe ".encrypt_password" do
         let(:encrypted_password) { "{SHA256}#{Digest::SHA256.digest("test_user:test_password")}" }
 

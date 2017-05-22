@@ -16,7 +16,10 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    [YugiohX2::Card, YugiohX2::Artwork, YugiohX2::MonsterType].each(&:delete_all)
+    tables = ActiveRecord::Base.connection.execute("SELECT name FROM sqlite_master WHERE type='table';").map {|raw| raw['name']}
+    (tables - ['sqlite_sequence', 'ar_internal_metadata']).each do |table|
+      ActiveRecord::Base.connection.execute("DELETE FROM #{table};")
+    end
     ActiveRecord::Base.connection.execute("VACUUM;")
   end
 end
