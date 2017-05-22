@@ -1,0 +1,4 @@
+GET:
+  /healthcheck: YugiohX2::BaseController
+  /cards/search: YugiohX2::CardController
+  /cards/subtract: YugiohX2::CardController
