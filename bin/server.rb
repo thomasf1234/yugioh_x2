@@ -50,7 +50,7 @@ if ENV['DAEMON']
 end
 
 
-server = WEBrick::HTTPServer.new(RequestCallback: lambda(&YugiohX2::BaseController.method(:size)), Port: 2000)
+server = WEBrick::HTTPServer.new(RequestCallback: lambda(&YugiohX2::BaseController.method(:before_request)), Port: 2000)
 
 server.mount "/", MyServlet
 

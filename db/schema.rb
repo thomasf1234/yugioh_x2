@@ -16,6 +16,7 @@ ActiveRecord::Schema.define do
       table.column :expires_at, :datetime
 
       table.index :user_id, unique: true
+      table.index :uuid, unique: true
     end
   end
 

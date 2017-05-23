@@ -5,9 +5,15 @@ module YugiohX2
     validates_presence_of :user_id, :uuid, :remote_ip
 
     before_validation(on: :create) do
-      self.uuid = SecureRandom.uuid
+      if self.uuid.nil?
+        self.uuid = SecureRandom.uuid
+      end
     end
 
     belongs_to :user
+
+    def expired?
+      expires_at <= DateTime.now
+    end
   end
 end
