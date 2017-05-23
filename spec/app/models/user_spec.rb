@@ -37,6 +37,19 @@ module YugiohX2Spec
           expect(YugiohX2::User.encrypt_password("test_user", "test_password")).to eq(encrypted_password)
         end
       end
+
+      describe "create" do
+        let(:username) { 'test_user' }
+        let(:encrypted_password) { "{SHA256}#{Digest::SHA256.digest("#{username}:test_password")}" }
+
+        it 'is created with default 0 dp' do
+          user = YugiohX2::User.create(username: username, encrypted_password: encrypted_password)
+          expect(user.id).to_not eq(nil)
+          expect(user.username).to eq(username)
+          expect(user.encrypted_password).to eq(encrypted_password)
+          expect(user.dp).to eq(0)
+        end
+      end
     end
   end
 end
