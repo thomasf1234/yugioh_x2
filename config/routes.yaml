@@ -1,6 +1,6 @@
 GET:
   /healthcheck: YugiohX2::BaseController
-  /login: YugiohX2::BaseController
-  /logout: YugiohX2::BaseController
+  /login: YugiohX2::AccountsController
+  /logout: YugiohX2::AccountsController
   /cards/search: YugiohX2::CardController
   /cards/subtract: YugiohX2::CardController

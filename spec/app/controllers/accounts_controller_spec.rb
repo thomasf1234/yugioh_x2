@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 module YugiohX2Spec
-  module BaseControllerSpec
-    RSpec.describe YugiohX2::BaseController do
+  module AccountsControllerSpec
+    RSpec.describe YugiohX2::AccountsController do
       describe "#login" do
-        let(:controller) { YugiohX2::BaseController.new }
+        let(:controller) { YugiohX2::AccountsController.new }
         let(:request) { double("Request", query: query, remote_ip: '127.0.0.1') }
 
         context "invalid parameters" do
@@ -95,7 +95,7 @@ module YugiohX2Spec
       end
 
       describe "#logout" do
-        let(:controller) { YugiohX2::BaseController.new }
+        let(:controller) { YugiohX2::AccountsController.new }
         let(:request) { double("Request", query: query, remote_ip: '127.0.0.1') }
 
         context "invalid parameters" do
