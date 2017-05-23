@@ -1,5 +1,9 @@
 ENV['ENV'] ||= 'development'
 
+require 'yaml'
+
+ROUTES = YAML.load_file("config/routes.yaml")
+
 require 'fileutils'
 FileUtils.mkdir('log') unless File.directory?('log')
 

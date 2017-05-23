@@ -11,5 +11,9 @@ module YugiohX2Lib
         File.open(dest, 'wb') { |f| f.write(u.read) }
       end
     end
+
+    def self.positive_integer?(obj)
+      obj.kind_of?(Integer) && obj > 0 && obj.integer?
+    end
   end
 end
