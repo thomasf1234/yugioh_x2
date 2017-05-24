@@ -11,7 +11,7 @@ ActiveRecord::Schema.define do
 
   unless ActiveRecord::Base.connection.data_sources.include?('sessions')
     create_table :sessions do |table|
-      table.column :user_id, :string
+      table.column :user_id, :integer
       table.column :uuid, :string
       table.column :remote_ip, :string
       table.column :expires_at, :datetime
@@ -20,6 +20,27 @@ ActiveRecord::Schema.define do
       table.index :uuid, unique: true
     end
   end
+
+  unless ActiveRecord::Base.connection.data_sources.include?('user_cards')
+    create_table :user_cards do |table|
+      table.column :user_id, :integer
+      table.column :card_id, :integer
+      table.column :count, :integer, default: 1
+
+      table.index [:user_id, :card_id], unique: true
+    end
+  end
+
+
+=begin
+need to rename to base_cards
+need to create view cards
+
+CREATE VIEW cards AS
+SELECT * FROM user_cards uc
+INNER JOIN base_cards bc ON bc.id = uc.card_id
+INNER JOIN users u ON u.id = uc.user_id
+=end
 
   unless ActiveRecord::Base.connection.data_sources.include?('cards')
     create_table :cards do |table|
