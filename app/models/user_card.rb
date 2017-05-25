@@ -5,5 +5,12 @@ module YugiohX2
     validates :card_id, uniqueness: { scope: :user_id }
 
     belongs_to :user
+    belongs_to :card
+
+    delegate :db_name, :card_type, :category, :name, :level, :rank, :pendulum_scale,
+             :card_attribute, :property, :attack, :defense, :serial_number, :description,
+             :artworks, :monster_types,
+             to: :card
+
   end
 end

@@ -12,10 +12,10 @@ module YugiohX2Lib
       end
     end
 
-    def time_it
+    def time_it(dp=2)
       start
       yield
-      '%.2f' % get_elapsed_time
+      "%.#{dp}f" % get_elapsed_time
     end
   end
 end

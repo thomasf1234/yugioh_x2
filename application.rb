@@ -8,12 +8,12 @@ require 'fileutils'
 FileUtils.mkdir('log') unless File.directory?('log')
 
 require 'active_record'
+Dir["lib/**/*.rb"].each { |file| require_relative file }
 require_relative 'db/initialize'
 require_relative 'db/schema'
 
 Dir["app/exceptions/**/*.rb"].each { |file| require_relative file }
 Dir["app/**/*.rb"].each { |file| require_relative file }
-Dir["lib/**/*.rb"].each { |file| require_relative file }
 Dir["db/**/*.rb"].each { |file| require_relative file }
 
 
