@@ -25,5 +25,9 @@ module YugiohX2
 
     has_many :artworks, dependent: :destroy
     has_many :monster_types, foreign_key: 'card_id', dependent: :destroy
+
+    if ENV['ENV'] != 'test'
+      after_initialize :readonly!
+    end
   end
 end

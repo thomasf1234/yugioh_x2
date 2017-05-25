@@ -11,13 +11,23 @@ ActiveRecord::Schema.define do
 
   unless ActiveRecord::Base.connection.data_sources.include?('sessions')
     create_table :sessions do |table|
-      table.column :user_id, :string
+      table.column :user_id, :integer
       table.column :uuid, :string
       table.column :remote_ip, :string
       table.column :expires_at, :datetime
 
       table.index :user_id, unique: true
       table.index :uuid, unique: true
+    end
+  end
+
+  unless ActiveRecord::Base.connection.data_sources.include?('user_cards')
+    create_table :user_cards do |table|
+      table.column :user_id, :integer
+      table.column :card_id, :integer
+      table.column :count, :integer, default: 1
+
+      table.index [:user_id, :card_id], unique: true
     end
   end
 
@@ -66,8 +76,7 @@ ActiveRecord::Schema.define do
     end
   end
 
-  ActiveRecord::Base.connection.execute('DROP VIEW IF EXISTS monsters')
-  ActiveRecord::Base.connection.execute <<EOF
+  YugiohX2Lib::Utils.create_view :monsters, <<EOF
 CREATE VIEW monsters AS
 SELECT c.id as card_id,
        c.db_name as db_name,
@@ -85,8 +94,7 @@ FROM cards c
 WHERE c.card_type = 'Monster'
 EOF
 
-  ActiveRecord::Base.connection.execute('DROP VIEW IF EXISTS non_monsters')
-  ActiveRecord::Base.connection.execute <<EOF
+  YugiohX2Lib::Utils.create_view :non_monsters, <<EOF
 CREATE VIEW non_monsters AS
 SELECT c.id as card_id,
        c.db_name as db_name,
