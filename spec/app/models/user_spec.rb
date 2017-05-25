@@ -19,14 +19,43 @@ module YugiohX2Spec
             expect(user.errors[:encrypted_password]).to include("can't be blank")
           end
         end
+
+        context 'dp' do
+          it 'must be an integer greater than 0' do
+            user = YugiohX2::User.new(dp: nil)
+            user.valid?
+            expect(user.errors[:dp]).to include("is not a number")
+
+            user.dp = -2
+            user.valid?
+            expect(user.errors[:dp]).to include("must be greater than or equal to 0")
+
+            user.dp = 2
+            user.valid?
+            expect(user.errors[:dp].empty?).to eq(true)
+          end
+        end
       end
 
       describe "associations" do
-        let(:user) { YugiohX2::User.create(username: "TestUser", encrypted_password: "{SHA256}some_encrypted_password") }
+        context 'session' do
+          let(:user) { YugiohX2::User.create(username: "TestUser", encrypted_password: "{SHA256}some_encrypted_password") }
 
-        it "has one session" do
-          session = YugiohX2::Session.create(user_id: user.id, remote_ip: '127.0.0.1')
-          expect(user.session).to eq(session)
+          it "has one session" do
+            session = YugiohX2::Session.create(user_id: user.id, remote_ip: '127.0.0.1')
+            expect(user.session).to eq(session)
+          end
+        end
+
+        context "user_card" do
+          let(:user) { YugiohX2::User.create(username: "TestUser", encrypted_password: "{SHA256}some_encrypted_password") }
+
+          it "has many user_cards" do
+            user_card1 = YugiohX2::UserCard.create!(user_id: user.id, card_id: 1, count: 1)
+            user_card2 = YugiohX2::UserCard.create!(user_id: user.id, card_id: 2, count: 1)
+
+            expect(user.user_cards).to match_array([user_card1, user_card2])
+          end
         end
       end
 
