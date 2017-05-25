@@ -1,13 +1,3 @@
-def create_view(name, sql)
-  stopwatch = YugiohX2Lib::Stopwatch.new
-  duration = stopwatch.time_it(3) do
-    ActiveRecord::Base.connection.execute("DROP VIEW IF EXISTS #{name}")
-    ActiveRecord::Base.connection.execute(sql)
-    puts "-- create_view(:#{name})"
-  end
-  puts "   -> #{duration}s"
-end
-
 ActiveRecord::Schema.define do
   unless ActiveRecord::Base.connection.data_sources.include?('users')
     create_table :users do |table|
@@ -40,18 +30,6 @@ ActiveRecord::Schema.define do
       table.index [:user_id, :card_id], unique: true
     end
   end
-
-
-=begin
-https://ducktypelabs.com/how-a-has_many-through-association-works-in-practice/
-need to rename to base_cards
-need to create view cards
-
-CREATE VIEW cards AS
-SELECT * FROM user_cards uc
-INNER JOIN base_cards bc ON bc.id = uc.card_id
-INNER JOIN users u ON u.id = uc.user_id
-=end
 
   unless ActiveRecord::Base.connection.data_sources.include?('cards')
     create_table :cards do |table|
@@ -98,7 +76,7 @@ INNER JOIN users u ON u.id = uc.user_id
     end
   end
 
-  create_view :monsters, <<EOF
+  YugiohX2Lib::Utils.create_view :monsters, <<EOF
 CREATE VIEW monsters AS
 SELECT c.id as card_id,
        c.db_name as db_name,
@@ -116,7 +94,7 @@ FROM cards c
 WHERE c.card_type = 'Monster'
 EOF
 
-  create_view :non_monsters, <<EOF
+  YugiohX2Lib::Utils.create_view :non_monsters, <<EOF
 CREATE VIEW non_monsters AS
 SELECT c.id as card_id,
        c.db_name as db_name,

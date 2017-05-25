@@ -57,32 +57,6 @@ module YugiohX2Spec
             expect(user.user_cards).to match_array([user_card1, user_card2])
           end
         end
-
-        context "cards" do
-          let(:user) { YugiohX2::User.create(username: "TestUser", encrypted_password: "{SHA256}some_encrypted_password") }
-          let(:card1) do
-            YugiohX2::Card.create(db_name: 'Dark_Magician',
-                                  name: 'Dark Magician',
-                                  description: 'The ultimate wizard',
-                                  category: YugiohX2::Card::Categories::NORMAL,
-                                  card_type: YugiohX2::Card::Types::MONSTER)
-          end
-          let(:card2) do
-            YugiohX2::Card.create(db_name: 'Dark_Magician2',
-                                  name: 'Dark Magician2',
-                                  description: 'The ultimate wizard2',
-                                  category: YugiohX2::Card::Categories::NORMAL,
-                                  card_type: YugiohX2::Card::Types::MONSTER)
-          end
-
-
-          it "has many cards through users" do
-            YugiohX2::UserCard.create!(user_id: user.id, card_id: card1.id, count: 1)
-            YugiohX2::UserCard.create!(user_id: user.id, card_id: card2.id, count: 1)
-
-            expect(user.cards).to match_array([card1, card2])
-          end
-        end
       end
 
       describe ".encrypt_password" do
