@@ -76,6 +76,25 @@ ActiveRecord::Schema.define do
     end
   end
 
+  unless ActiveRecord::Base.connection.data_sources.include?('booster_packs')
+    create_table :booster_packs do |table|
+      table.column :db_name, :string
+      table.column :name, :string
+      table.column :image_path, :string
+      table.column :cost, :integer
+
+      table.index :db_name, unique: true
+    end
+  end
+
+  unless ActiveRecord::Base.connection.data_sources.include?('booster_pack_cards')
+    create_table :booster_pack_cards do |table|
+      table.column :booster_pack_id, :integer
+      table.column :card_id, :integer
+      table.column :rarity, :string
+    end
+  end
+
   YugiohX2Lib::Utils.create_view :monsters, <<EOF
 CREATE VIEW monsters AS
 SELECT c.id as card_id,

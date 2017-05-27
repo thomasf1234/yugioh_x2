@@ -8193,4 +8193,7 @@ INSERT INTO artworks(id,source_url,image_path,card_id) VALUES(8191,'https://vign
 INSERT INTO artworks(id,source_url,image_path,card_id) VALUES(8192,'https://vignette3.wikia.nocookie.net/yugioh/images/4/48/ZWUnicornSpear-OW.png','db/data/development/artworks/ZW_-_Unicorn_Spear/ZWUnicornSpear-OW.png',8920);
 INSERT INTO artworks(id,source_url,image_path,card_id) VALUES(8193,'https://vignette1.wikia.nocookie.net/yugioh/images/8/8c/MeklordEmperorCreation-TF06-JP-VG.png','db/data/development/artworks/Meklord_Emperor_Creation/MeklordEmperorCreation-TF06-JP-VG.png',8921);
 INSERT INTO artworks(id,source_url,image_path,card_id) VALUES(8194,'https://vignette3.wikia.nocookie.net/yugioh/images/a/a6/RaigekiBottle-TF06-JP-VG.png','db/data/development/artworks/Raigeki_Bottle/RaigekiBottle-TF06-JP-VG.png',8922);
+INSERT INTO artworks(id,source_url,image_path,card_id) VALUES(8195,'https://vignette1.wikia.nocookie.net/yugioh/images/6/60/SpeedSpellRapidShotwing-OW.png','db/data/development/artworks/Speed_Spell_-_Rapid_Shotwing/SpeedSpellRapidShotwing-OW.png',8931);
+INSERT INTO artworks(id,source_url,image_path,card_id) VALUES(8196,'https://vignette1.wikia.nocookie.net/yugioh/images/6/61/Surface-TF06-JP-VG.png','db/data/development/artworks/Surface/Surface-TF06-JP-VG.png',8935);
+INSERT INTO artworks(id,source_url,image_path,card_id) VALUES(8197,'https://vignette2.wikia.nocookie.net/yugioh/images/c/cd/Surface-OW.png','db/data/development/artworks/Surface/Surface-OW.png',8935);
 COMMIT;
