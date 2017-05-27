@@ -76,7 +76,6 @@ module YugiohX2Lib
         }
 
         rows = page.xpath("//div[@title='English']/table/tr")
-
         if rows.nil? || rows.empty?
           rows = page.xpath("//div[@title='North American']/table/tr")
         end
@@ -102,7 +101,7 @@ module YugiohX2Lib
         name_col = nil
         rarity_col = nil
         rows[row_header_index].xpath('.//th').each_with_index do |col, index|
-          if col.text.strip.downcase.include?("english")
+          if col.text.strip.downcase.include?("english") || col.text.strip.downcase.include?("name")
             name_col = index
           end
 
