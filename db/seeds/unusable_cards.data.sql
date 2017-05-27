@@ -3523,4 +3523,10 @@ INSERT INTO unusable_cards(id,db_name,reason) VALUES(3521,'ZS_-_Ouroboros_Sage',
 INSERT INTO unusable_cards(id,db_name,reason) VALUES(3522,'ZW_-_Sylphid_Wing','Anime Card');
 INSERT INTO unusable_cards(id,db_name,reason) VALUES(3523,'Zweiroid','Anime Card');
 INSERT INTO unusable_cards(id,db_name,reason) VALUES(3524,'Attack_Force','Anime Card');
+INSERT INTO unusable_cards(id,db_name,reason) VALUES(3525,'Enter-Mate_Clay_Breaker','Anime Card');
+INSERT INTO unusable_cards(id,db_name,reason) VALUES(3526,'Full_Turn','Anime Card');
+INSERT INTO unusable_cards(id,db_name,reason) VALUES(3527,'Gouki_Headbutt','Anime Card');
+INSERT INTO unusable_cards(id,db_name,reason) VALUES(3528,'Limit_Lock','Anime Card');
+INSERT INTO unusable_cards(id,db_name,reason) VALUES(3529,'Miraculous_Hats','Anime Card');
+INSERT INTO unusable_cards(id,db_name,reason) VALUES(3530,'White_Arbitration','Anime Card');
 COMMIT;

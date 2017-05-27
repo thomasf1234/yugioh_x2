@@ -10,5 +10,14 @@ namespace :admin do
         YugiohX2Lib::Jobs::SyncCards.new.perform
       end
     end
+
+    desc "sync booster packs"
+    task :sync_booster_packs do
+      stopwatch = YugiohX2Lib::Stopwatch.new
+
+      stopwatch.time_it do
+        YugiohX2Lib::Jobs::SyncBoosterPacks.new.perform
+      end
+    end
   end
 end
