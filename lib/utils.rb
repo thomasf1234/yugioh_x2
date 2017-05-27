@@ -25,5 +25,9 @@ module YugiohX2Lib
       end
       puts "   -> #{duration}s"
     end
+
+    def self.average(array)
+      array.inject{ |sum, el| sum + el }.to_f / array.count
+    end
   end
 end
