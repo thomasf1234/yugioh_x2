@@ -1,25 +1,7 @@
 require 'spec_helper'
 
 module YugiohX2Spec
-  module AccountsControllerSpec
-    module Helper
-      class << self
-        include RSpec::Mocks::ExampleMethods
-
-        def login(username, password)
-          accounts_controller = YugiohX2::AccountsController.new
-          mock_request = double("Request", query: {'username' => username, 'password' => password}, remote_ip: '127.0.0.1')
-          json, response_code = accounts_controller.login(mock_request)
-
-          if response_code == 200
-            JSON.parse(json)['uuid']
-          else
-            raise "An error occurred logging in"
-          end
-        end
-      end
-    end
-
+  module UsersControllerSpec
     RSpec.describe YugiohX2::AccountsController do
       describe "#find" do
         let(:controller) { YugiohX2::UsersController.new }
@@ -57,7 +39,7 @@ module YugiohX2Spec
               _uuid
             end
 
-            it "returns the readable user fields" do
+            it "returns 401" do
               json, response_code = controller.find(request)
               expect(response_code).to eq(401)
               expect(JSON.parse(json)).to eq({'message' => "You are not authorized to make this request"})

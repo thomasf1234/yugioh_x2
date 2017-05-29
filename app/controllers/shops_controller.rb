@@ -10,7 +10,7 @@ module YugiohX2
         if logged_in?(uuid, request.remote_ip)
           user = current_user(uuid, request.remote_ip)
 
-          if user.dp > 1000
+          if user.dp >= 1000
             card = YugiohX2::Card.find_by_serial_number(serial_number)
 
             if card.nil?
