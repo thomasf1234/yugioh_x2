@@ -4,3 +4,5 @@ GET:
   /logout: YugiohX2::AccountsController
   /users/find: YugiohX2::UsersController
   /cards/search: YugiohX2::CardController
+  /cards/user_cards: YugiohX2::CardController
+  /shops/password_machine: YugiohX2::ShopsController
