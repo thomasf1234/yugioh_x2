@@ -3,9 +3,11 @@ require_relative 'base_controller'
 module YugiohX2
   class AccountsController < BaseController
     def login(request)
-      if valid_params?(request.query, ['username', 'password'])
-        username = request.query["username"]
-        password = request.query["password"]
+      body = extract_payload(request)
+
+      if valid_params?(body, ['username', 'password'])
+        username = body["username"]
+        password = body["password"]
 
         if User.exists?(username: username)
           user = User.find_by_username(username)
@@ -36,18 +38,13 @@ module YugiohX2
     end
 
     def logout(request)
-      if valid_params?(request.query, ['uuid'])
-        uuid = request.query["uuid"]
-        session = Session.find_by(uuid: uuid, remote_ip: request.remote_ip)
+      session = current_session(request)
 
-        if session.nil?
-          render({json: {message: "No sessions found for uuid"}.to_json}, 404)
-        else
-          session.destroy!
-          render json: {message: "You have been logged out"}.to_json
-        end
+      if session.nil?
+        render({json: {message: "No sessions found for uuid"}.to_json}, 404)
       else
-        render({json: {message: "invalid request parameters"}.to_json}, 422)
+        session.destroy!
+        render json: {message: "You have been logged out"}.to_json
       end
     end
   end

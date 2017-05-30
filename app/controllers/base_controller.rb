@@ -26,23 +26,37 @@ module YugiohX2
       end
     end
 
-    def logged_in?(uuid, remote_ip)
-      session = current_session(uuid, remote_ip)
+    def logged_in?(request)
+      if request.header.has_key?('uuid')
+        session = current_session(request)
 
-      if session.nil? || session.expired?
-        false
+        if session.nil? || session.expired?
+          false
+        else
+          true
+        end
       else
-        true
+        false
       end
     end
 
-    def current_user(uuid, remote_ip)
-      session = current_session(uuid, remote_ip)
-      session.user
+    def current_user(request)
+      session = current_session(request)
+
+      if session.nil?
+        nil
+      else
+        session.user
+      end
     end
 
-    def current_session(uuid, remote_ip)
-      Session.find_by(uuid: uuid, remote_ip: remote_ip)
+    def current_session(request)
+      if request.header.has_key?('uuid')
+        uuid = request.header['uuid'].first
+        Session.find_by(uuid: uuid, remote_ip: request.remote_ip)
+      else
+        nil
+      end
     end
   end
 end

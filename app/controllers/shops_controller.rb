@@ -3,12 +3,12 @@ require_relative 'base_controller'
 module YugiohX2
   class ShopsController < BaseController
     def password_machine(request)
-      if valid_params?(request.query, ['uuid', 'serial_number'])
-        uuid = request.query['uuid']
-        serial_number = request.query['serial_number']
+      if logged_in?(request)
+        user = current_user(request)
+        body = extract_payload(request)
 
-        if logged_in?(uuid, request.remote_ip)
-          user = current_user(uuid, request.remote_ip)
+        if valid_params?(body, ['serial_number'])
+          serial_number = body['serial_number']
 
           if user.dp >= 1000
             card = YugiohX2::Card.find_by_serial_number(serial_number)
@@ -34,10 +34,10 @@ module YugiohX2
             render({json: {message: "User does not have enough dp to fulfill the request"}.to_json}, 402)
           end
         else
-          render({json: {message: "You are not authorized to make this request"}.to_json}, 401)
+          render({json: {message: "invalid request parameters"}.to_json}, 422)
         end
       else
-        render({json: {message: "invalid request parameters"}.to_json}, 422)
+        render({json: {message: "You are not authorized to make this request"}.to_json}, 401)
       end
     end
   end

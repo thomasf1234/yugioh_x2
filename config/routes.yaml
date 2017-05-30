@@ -1,9 +1,12 @@
 GET:
   /healthcheck: YugiohX2::BaseController
-  /login: YugiohX2::AccountsController
-  /logout: YugiohX2::AccountsController
   /users/find: YugiohX2::UsersController
+  /users/cards: YugiohX2::UsersController
   /cards/db_names: YugiohX2::CardsController
   /cards/get: YugiohX2::CardsController
-  /cards/user_cards: YugiohX2::CardsController
+
+POST:
+  /login: YugiohX2::AccountsController
+  /logout: YugiohX2::AccountsController
+  /shops/purchase: YugiohX2::ShopsController
   /shops/password_machine: YugiohX2::ShopsController
