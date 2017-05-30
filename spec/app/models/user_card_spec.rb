@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module YugiohX2Spec
-  module UserSpec
+  module UserCardSpec
     RSpec.describe YugiohX2::UserCard do
       describe 'validations' do
         context 'user_id' do

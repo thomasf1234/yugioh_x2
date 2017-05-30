@@ -34,7 +34,7 @@ module YugiohX2Spec
 
           context "session expired" do
             let(:uuid) do
-              _uuid = Helper.login('TestUser', 'TestPassword')
+              _uuid = GlobalHelper.login('TestUser', 'TestPassword')
               YugiohX2::Session.find_by_uuid(_uuid).update_attribute(:expires_at, DateTime.parse('2016-01-01'))
               _uuid
             end
@@ -48,7 +48,7 @@ module YugiohX2Spec
 
           context "session active" do
             let(:uuid) do
-              Helper.login('TestUser', 'TestPassword')
+              GlobalHelper.login('TestUser', 'TestPassword')
             end
 
             it "returns the readable user fields" do

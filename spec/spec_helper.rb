@@ -6,7 +6,7 @@ factories_path = File.expand_path("../factories",__FILE__)
 FactoryGirl.definition_file_paths << factories_path
 FactoryGirl.find_definitions
 
-module Helper
+class GlobalHelper
   class << self
     include RSpec::Mocks::ExampleMethods
 
@@ -50,7 +50,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    Helper.reset_tables_and_sequences
+    GlobalHelper.reset_tables_and_sequences
   end
 end
 

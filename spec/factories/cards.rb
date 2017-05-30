@@ -134,25 +134,3 @@ Must be Fusion Summoned, and cannot be Special Summoned by other ways. Cannot be
 During either player's turn, when a card or effect is activated that would destroy a card(s) on the field: You can Tribute this card; negate the activation, and if you do, destroy it. During the End Phase, if this effect was activated this turn (and was not negated): You can Special Summon this card from your Graveyard."
   end
 end
-
-
-# cards.each do |card|
-#   puts <<EOF
-#   factory :#{card.category.downcase.underscore}_card, class: YugiohX2::Card do
-#     db_name '#{card.db_name}'
-#     card_type '#{card.card_type}'
-#     category '#{card.category}'
-#     name '#{card.name}'
-#     level #{card.level}
-#     rank #{card.rank}
-#     pendulum_scale #{card.pendulum_scale}
-#     card_attribute '#{card.card_attribute}'
-#     property '#{card.property}'
-#     attack '#{card.attack}'
-#     defense '#{card.defense}'
-#     serial_number '#{card.serial_number}'
-#     description "#{card.description}"
-#   end
-#
-# EOF
-# end
