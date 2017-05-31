@@ -2,7 +2,7 @@ require_relative 'base_controller'
 
 module YugiohX2
   class UsersController < BaseController
-    def find(request)
+    def get(request)
       if logged_in?(request)
         user = current_user(request)
         render json: user.to_json(except: [:id, :encrypted_password])
@@ -11,10 +11,10 @@ module YugiohX2
       end
     end
 
-    def user_cards(request)
+    def cards(request)
       if logged_in?(request)
         user = current_user(request)
-        render json: user.user_cards.to_json(except: [:id])
+        render json: user.user_cards.to_json(except: [:id, :user_id])
       else
         render({json: {message: "You are not authorized to make this request"}.to_json}, 401)
       end

@@ -1,6 +1,6 @@
 GET:
   /healthcheck: YugiohX2::BaseController
-  /users/find: YugiohX2::UsersController
+  /users/get: YugiohX2::UsersController
   /users/cards: YugiohX2::UsersController
   /cards/db_names: YugiohX2::CardsController
   /cards/get: YugiohX2::CardsController

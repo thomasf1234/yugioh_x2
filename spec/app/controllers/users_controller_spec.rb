@@ -3,8 +3,8 @@ require 'spec_helper'
 module YugiohX2Spec
   module UsersControllerSpec
     RSpec.describe YugiohX2::AccountsController do
-      describe "#find" do
-        let(:get_response) { controller.find(request) }
+      describe "#get" do
+        let(:get_response) { controller.get(request) }
         let(:controller) { YugiohX2::UsersController.new }
         let(:request) { double("Request", header: header, query: {}, remote_ip: '127.0.0.1') }
         let!(:user) { YugiohX2::User.create(username: "TestUser", encrypted_password: YugiohX2::User.encrypt_password('TestUser', 'TestPassword')) }
@@ -43,7 +43,7 @@ module YugiohX2Spec
             end
 
             it "returns the readable user fields" do
-              json, response_code = controller.find(request)
+              json, response_code = get_response
               expect(response_code).to eq(200)
               expect(JSON.parse(json)).to eq({'username' => "TestUser", 'dp' => 0})
             end
