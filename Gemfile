@@ -8,5 +8,6 @@ gem 'nokogiri'
 group :development, :test do
   gem 'rspec'
   gem 'pry'
+  gem "factory_girl"
 end
 

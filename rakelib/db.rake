@@ -55,14 +55,18 @@ EOF
 
     desc "runs database seeds in db/seeds/*.sql"
     task :seed do
-      seed_paths =  Dir.glob("db/seeds/**/*\.sql")
+      if YugiohX2::Card.count == 0
+        seed_paths =  Dir.glob("db/seeds/**/*\.sql")
 
-      seed_paths.each do |seed_path|
-        puts "Seeding #{seed_path}..."
-        system2("sqlite3 #{database_path} \".read #{seed_path}\"")
+        seed_paths.each do |seed_path|
+          puts "Seeding #{seed_path}..."
+          system2("sqlite3 #{database_path} \".read #{seed_path}\"")
+        end
+
+        puts "Finished seeding #{database_path}."
+      else
+        puts "Not seeding as database is not empty"
       end
-
-      puts "Finished seeding #{database_path}."
     end
 
     def system2(command)

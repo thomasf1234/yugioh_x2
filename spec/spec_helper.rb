@@ -2,6 +2,44 @@ ENV['ENV'] ||= 'test'
 Bundler.require(:default, ENV['ENV'])
 require_relative '../application'
 
+factories_path = File.expand_path("../factories",__FILE__)
+FactoryGirl.definition_file_paths << factories_path
+FactoryGirl.find_definitions
+
+class GlobalHelper
+  class << self
+    include RSpec::Mocks::ExampleMethods
+
+    def login(username, password)
+      accounts_controller = YugiohX2::AccountsController.new
+      mock_request = double("Request",
+                            content_type: 'application/json',
+                            header: {},
+                            body: {'username' => username, 'password' => password}.to_json,
+                            remote_ip: '127.0.0.1')
+      json, response_code = accounts_controller.login(mock_request)
+
+      if response_code == 200
+        JSON.parse(json)['uuid']
+      else
+        raise "An error occurred logging in"
+      end
+    end
+
+    def reset_tables_and_sequences
+      connection = ActiveRecord::Base.connection
+
+      tables = connection.execute("SELECT name FROM sqlite_master WHERE type='table';").map {|raw| raw['name']}
+      (tables - ['sqlite_sequence', 'ar_internal_metadata']).each do |table|
+        connection.execute("DELETE FROM '#{table}'")
+        connection.execute("DELETE from sqlite_sequence where name = '#{table}'")
+      end
+
+      connection.execute("VACUUM;")
+    end
+  end
+end
+
 RSpec.configure do |config|
   config.color= true
   config.order= :rand
@@ -16,10 +54,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    tables = ActiveRecord::Base.connection.execute("SELECT name FROM sqlite_master WHERE type='table';").map {|raw| raw['name']}
-    (tables - ['sqlite_sequence', 'ar_internal_metadata']).each do |table|
-      ActiveRecord::Base.connection.execute("DELETE FROM #{table};")
-    end
-    ActiveRecord::Base.connection.execute("VACUUM;")
+    GlobalHelper.reset_tables_and_sequences
   end
 end
+
