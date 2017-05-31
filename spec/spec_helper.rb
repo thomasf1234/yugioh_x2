@@ -14,6 +14,7 @@ class GlobalHelper
       accounts_controller = YugiohX2::AccountsController.new
       mock_request = double("Request",
                             content_type: 'application/json',
+                            header: {},
                             body: {'username' => username, 'password' => password}.to_json,
                             remote_ip: '127.0.0.1')
       json, response_code = accounts_controller.login(mock_request)

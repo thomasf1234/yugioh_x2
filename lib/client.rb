@@ -36,8 +36,16 @@ module YugiohX2Lib
       get('/users/cards')
     end
 
+    def deposit(username, dp_amount)
+      post('/users/deposit', {username: username, amount: dp_amount})
+    end
+
     def password_machine(serial_number)
       post('/shops/password_machine', {serial_number: serial_number})
+    end
+
+    def purchase(booster_pack_db_name)
+      post('/shops/purchase', {booster_pack_db_name: booster_pack_db_name})
     end
 
     protected

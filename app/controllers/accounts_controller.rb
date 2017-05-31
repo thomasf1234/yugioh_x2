@@ -11,23 +11,28 @@ module YugiohX2
 
         if User.exists?(username: username)
           user = User.find_by_username(username)
+          encrypted_password = User.encrypt_password(username, password)
 
-          if user.session.nil?
-            encrypted_password = User.encrypt_password(username, password)
+          if encrypted_password == user.encrypted_password
+            session_params = {user_id: user.id,
+                              uuid: SecureRandom.uuid,
+                              remote_ip: request.remote_ip,
+                              expires_at: DateTime.now.advance(hours: 1)}
 
-            if encrypted_password == user.encrypted_password
-              session_params = {user_id: user.id,
-                                uuid: SecureRandom.uuid,
-                                remote_ip: request.remote_ip,
-                                expires_at: DateTime.now.advance(hours: 1)}
 
+            current_session = current_session(request)
+
+            if current_session.nil? && user.session.nil?
               session = Session.create!(session_params)
-              render json: {message: "Welcome back #{user.username}.", uuid: session.uuid}.to_json
             else
-              render({json: {message: "invalid username and password"}.to_json}, 401)
+              session = user.session
+              session.update_attributes!(session_params)
+              session.reload
             end
+
+            render json: {message: "Welcome back #{user.username}.", uuid: session.uuid}.to_json
           else
-            render json: {message: "You are already logged in"}.to_json
+            render({json: {message: "invalid username and password"}.to_json}, 401)
           end
         else
           render({json: {message: "invalid username and password"}.to_json}, 401)

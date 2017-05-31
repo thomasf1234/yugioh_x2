@@ -6,7 +6,11 @@ module YugiohX2Spec
       describe "#login" do
         let(:get_response) { controller.login(request) }
         let(:controller) { YugiohX2::AccountsController.new }
-        let(:request) { double("Request", content_type: 'application/json', body: body, remote_ip: '127.0.0.1') }
+        let(:request) { double("Request",
+                               content_type: 'application/json',
+                               header: {},
+                               body: body,
+                               remote_ip: '127.0.0.1') }
 
         context "invalid parameters" do
           let(:body) { {'username' => 'TestUser', 'unknown_key' => 'unknown_value'}.to_json }
@@ -49,7 +53,13 @@ module YugiohX2Spec
                 json, response_code = get_response
 
                 expect(response_code).to eq(200)
-                expect(JSON.parse(json)).to eq({'message' => "You are already logged in"})
+                response_body = JSON.parse(json)
+                expect(response_body['message']).to eq("Welcome back #{user.username}.")
+                expect(response_body['uuid'].length).to eq(36)
+                expect(YugiohX2::Session.count).to eq(1)
+                expect(user.session).to eq(YugiohX2::Session.first)
+                expect(user.session.uuid).to eq(response_body['uuid'])
+                expect(user.session.remote_ip).to eq('127.0.0.1')
               end
             end
 
@@ -60,7 +70,13 @@ module YugiohX2Spec
                 json, response_code = get_response
 
                 expect(response_code).to eq(200)
-                expect(JSON.parse(json)).to eq({'message' => "You are already logged in"})
+                response_body = JSON.parse(json)
+                expect(response_body['message']).to eq("Welcome back #{user.username}.")
+                expect(response_body['uuid'].length).to eq(36)
+                expect(YugiohX2::Session.count).to eq(1)
+                expect(user.session).to eq(YugiohX2::Session.first)
+                expect(user.session.uuid).to eq(response_body['uuid'])
+                expect(user.session.remote_ip).to eq('127.0.0.1')
               end
             end
           end
@@ -98,7 +114,10 @@ module YugiohX2Spec
       describe "#logout" do
         let(:get_response) { controller.logout(request) }
         let(:controller) { YugiohX2::AccountsController.new }
-        let(:request) { double("Request", header: header, body: {}, remote_ip: '127.0.0.1') }
+        let(:request) { double("Request",
+                               header: header,
+                               body: {},
+                               remote_ip: '127.0.0.1') }
 
         context "session does not exist" do
           let(:header) { {'uuid' => ['c26c81f8-f330-467a-99b3-25389ebb4ef4']} }

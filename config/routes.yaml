@@ -8,5 +8,6 @@ GET:
 POST:
   /login: YugiohX2::AccountsController
   /logout: YugiohX2::AccountsController
+  /users/deposit: YugiohX2::UsersController
   /shops/purchase: YugiohX2::ShopsController
   /shops/password_machine: YugiohX2::ShopsController

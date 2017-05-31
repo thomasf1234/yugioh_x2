@@ -19,5 +19,28 @@ module YugiohX2
         render({json: {message: "You are not authorized to make this request"}.to_json}, 401)
       end
     end
+
+    #admin
+    #TODO : put check in for negative amount
+    def deposit(request)
+      body = extract_payload(request)
+
+      if valid_params?(body, ['username', 'amount'])
+        username = body['username']
+        amount = body['amount']
+        user = YugiohX2::User.find_by_username(username)
+
+        if user.nil?
+          render({json: {message: "User with username #{username} does not exist"}.to_json}, 404)
+        else
+          user.dp += amount
+          user.save!
+
+          render json: {message: "#{username} has been awarded #{amount}dp"}.to_json
+        end
+      else
+        render({json: {message: "invalid request parameters"}.to_json}, 422)
+      end
+    end
   end
 end

@@ -101,7 +101,7 @@ module YugiohX2Spec
                       json, response_code = get_response
 
                       expect(response_code).to eq(200)
-                      expect(JSON.parse(json)).to eq({'message' => "User has purchased Dark Magician",
+                      expect(JSON.parse(json)).to eq({'message' => "User has purchased Dark Magician for 1000dp",
                                                       'card_id' => card.id})
 
                       expect(user.reload.dp).to eq(0)
