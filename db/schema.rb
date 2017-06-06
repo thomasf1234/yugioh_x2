@@ -33,6 +33,17 @@ ActiveRecord::Schema.define do
     end
   end
 
+  unless ActiveRecord::Base.connection.data_sources.include?('user_decks')
+    create_table :user_decks do |table|
+      table.column :user_id, :integer
+      table.column :main_card_ids, :text, default: [].to_yaml
+      table.column :side_card_ids, :text, default: [].to_yaml
+      table.column :extra_card_ids, :text, default: [].to_yaml
+
+      table.index :user_id
+    end
+  end
+
   unless ActiveRecord::Base.connection.data_sources.include?('cards')
     create_table :cards do |table|
       table.column :db_name, :string
