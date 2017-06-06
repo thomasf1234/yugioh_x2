@@ -1,3 +1,5 @@
+require 'yaml'
+
 ActiveRecord::Schema.define do
   unless ActiveRecord::Base.connection.data_sources.include?('users')
     create_table :users do |table|
@@ -92,6 +94,24 @@ ActiveRecord::Schema.define do
       table.column :booster_pack_id, :integer
       table.column :card_id, :integer
       table.column :rarity, :string
+    end
+  end
+
+  unless ActiveRecord::Base.connection.data_sources.include?('forbidden_limited_lists')
+    create_table :forbidden_limited_lists do |table|
+      table.column :effective_from, :date
+
+      table.index :effective_from, unique: true
+    end
+  end
+
+  unless ActiveRecord::Base.connection.data_sources.include?('forbidden_limited_list_cards')
+    create_table :forbidden_limited_list_cards do |table|
+      table.column :forbidden_limited_list_id, :integer
+      table.column :card_id, :integer
+      table.column :limited_status, :string
+
+      table.index [:forbidden_limited_list_id, :card_id], unique: true, name: 'unique_index_fll_id_card_id'
     end
   end
 

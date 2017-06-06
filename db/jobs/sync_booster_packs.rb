@@ -267,13 +267,3 @@ module YugiohX2Lib
     end
   end
 end
-
-
-
-# In the TCG, each main series Booster Pack is guaranteed a Rare, 7 Commons,
-# and a ninth card which will either be another Common or a foil card (Super Rare rarity or higher).
-# As of Breakers of Shadow, the ninth card is guaranteed to be at least a Super Rare, with a 1:6
-# chance of it being an Ultra Rare and a 1:12 chance of it being a Secret Rare. This also applies
-# to side series sets such as High-Speed Riders and Wing Raiders. Previously, the chances of a
-# single pack containing a Super Rare was 1:5, with Ultra Rare and Secret Rare chances being 1:12
-# and 1:23; in some older historical sets, the latter two chances were 1:24 and 1:31 instead.[c

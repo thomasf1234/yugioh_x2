@@ -19,5 +19,14 @@ namespace :admin do
         YugiohX2Lib::Jobs::SyncBoosterPacks.new.perform
       end
     end
+
+    desc "sync forbidden limited lists"
+    task :sync_forbidden_limited_lists do
+      stopwatch = YugiohX2Lib::Stopwatch.new
+
+      stopwatch.time_it do
+        YugiohX2Lib::Jobs::SyncForbiddenLimitedLists.new.perform
+      end
+    end
   end
 end
