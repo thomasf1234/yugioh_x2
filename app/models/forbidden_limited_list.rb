@@ -5,7 +5,7 @@ module YugiohX2
     has_many :forbidden_limited_list_cards, dependent: :destroy
 
     def self.current
-      where("effective_from < ?", Date.today).order(effective_from: :desc).first
+      where("effective_from <= ?", Date.today).order(effective_from: :desc).first
     end
 
     def max_limit(card_id)

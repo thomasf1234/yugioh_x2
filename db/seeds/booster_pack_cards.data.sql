@@ -5798,7 +5798,7 @@ INSERT INTO booster_pack_cards(id,booster_pack_id,card_id,rarity) VALUES(5796,62
 INSERT INTO booster_pack_cards(id,booster_pack_id,card_id,rarity) VALUES(5797,62,7869,'SuperRare');
 INSERT INTO booster_pack_cards(id,booster_pack_id,card_id,rarity) VALUES(5798,62,4583,'Rare');
 INSERT INTO booster_pack_cards(id,booster_pack_id,card_id,rarity) VALUES(5799,62,6252,'Rare');
-INSERT INTO booster_pack_cards(id,booster_pack_id,card_id,rarity) VALUES(5800,62,1609,'SuperRare');
+INSERT INTO booster_pack_cards(id,booster_pack_id,card_id,rarity) VALUES(5800,62,1609,'Rare');
 INSERT INTO booster_pack_cards(id,booster_pack_id,card_id,rarity) VALUES(5801,62,8193,'SuperRare');
 INSERT INTO booster_pack_cards(id,booster_pack_id,card_id,rarity) VALUES(5802,62,8899,'Common');
 INSERT INTO booster_pack_cards(id,booster_pack_id,card_id,rarity) VALUES(5803,62,8895,'UltraRare');

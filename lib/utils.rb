@@ -29,5 +29,14 @@ module YugiohX2Lib
     def self.average(array)
       array.inject{ |sum, el| sum + el }.to_f / array.count
     end
+
+    def self.system2(command)
+      success = system(command)
+      raise "An error occurred executing command: #{command}" unless success
+    end
+
+    def self.timestamp
+      DateTime.now.utc.strftime("%Y%m%d%H%M%S")
+    end
   end
 end
