@@ -14,10 +14,10 @@ module YugiohX2Lib
       end
 
       def sync(bp_db_name)
-        YugiohX2::SLogger.instance.debug("***************Starting sync for #{bp_db_name}")
+        Ax1Utils::SLogger.instance.info($log_name, "***************Starting sync for #{bp_db_name}")
 
         if YugiohX2::BoosterPack.exists?(db_name: bp_db_name)
-          YugiohX2::SLogger.instance.debug("Skipping #{bp_db_name}: Already exists", :yellow)
+          Ax1Utils::SLogger.instance.warn($log_name, "Skipping #{bp_db_name}: Already exists")
         else
           artwork_dir = File.join(DATA_DIRECTORY, 'artworks', bp_db_name)
           FileUtils.mkdir_p(artwork_dir)
@@ -52,18 +52,18 @@ module YugiohX2Lib
             end
 
             if YugiohX2::BoosterPack.exists?(db_name: bp_db_name)
-              YugiohX2::SLogger.instance.debug("Successfully synced #{bp_db_name}", :green)
+              Ax1Utils::SLogger.instance.success($log_name, "Successfully synced #{bp_db_name}")
             else
-              YugiohX2::SLogger.instance.debug("Rollback for #{bp_db_name}", :yellow)
+              Ax1Utils::SLogger.instance.warn($log_name, "Rollback for #{bp_db_name}")
             end
           rescue Exception => e
-            YugiohX2::SLogger.instance.debug("Failed to sync #{bp_db_name}", :red)
-            YugiohX2::SLogger.instance.debug("#{e.class.name} : #{e.message}", :red)
-            YugiohX2::SLogger.instance.debug(e.backtrace.join("\n"), :red)
+            Ax1Utils::SLogger.instance.error($log_name, "Failed to sync #{bp_db_name}")
+            Ax1Utils::SLogger.instance.error($log_name, "#{e.class.name} : #{e.message}")
+            Ax1Utils::SLogger.instance.error($log_name, e.backtrace.join("\n"))
           end
         end
 
-        YugiohX2::SLogger.instance.debug("***************Finished sync for #{bp_db_name}")
+        Ax1Utils::SLogger.instance.info($log_name, "***************Finished sync for #{bp_db_name}")
       end
 
       private

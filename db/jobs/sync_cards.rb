@@ -14,13 +14,13 @@ module YugiohX2Lib
       end
 
       def sync(db_name)
-        YugiohX2::SLogger.instance.debug("***************Starting sync for #{db_name}")
+        Ax1Utils::SLogger.instance.info($log_name, "***************Starting sync for #{db_name}")
 
         if YugiohX2::Card.exists?(db_name: db_name)
-          YugiohX2::SLogger.instance.debug("Skipping #{db_name}: Already exists", :yellow)
+          Ax1Utils::SLogger.instance.warn($log_name, "Skipping #{db_name}: Already exists")
         else
           if YugiohX2::UnusableCard.exists?(db_name: db_name)
-            YugiohX2::SLogger.instance.debug("Skipping #{db_name}: Unusable card", :yellow)
+            Ax1Utils::SLogger.instance.warn($log_name, "Skipping #{db_name}: Unusable card")
           else
             begin
               ActiveRecord::Base.transaction do
@@ -28,25 +28,25 @@ module YugiohX2Lib
               end
 
               if YugiohX2::Card.exists?(db_name: db_name)
-                YugiohX2::SLogger.instance.debug("Successfully synced #{db_name}", :green)
+                Ax1Utils::SLogger.instance.success($log_name, "Successfully synced #{db_name}")
               else
-                YugiohX2::SLogger.instance.debug("Rollback for #{db_name}", :yellow)
+                Ax1Utils::SLogger.instance.warn($log_name, "Rollback for #{db_name}")
               end
             rescue YugiohX2Lib::AnimeCardFound
               YugiohX2::UnusableCard.create!(db_name: db_name, reason: "Anime Card")
-              YugiohX2::SLogger.instance.debug("Skipping #{db_name}: Anime Card", :yellow)
+              Ax1Utils::SLogger.instance.warn($log_name, "Skipping #{db_name}: Anime Card")
             rescue ActiveRecord::RecordInvalid => rie
               YugiohX2::UnusableCard.create!(db_name: db_name, reason: "#{rie.class.name} : #{rie.message}")
-              YugiohX2::SLogger.instance.debug("Skipping #{db_name}: #{rie.class.name} : #{rie.message}", :yellow)
+              Ax1Utils::SLogger.instance.warn($log_name, "Skipping #{db_name}: #{rie.class.name} : #{rie.message}")
             rescue => e
-              YugiohX2::SLogger.instance.debug("Failed to sync #{db_name}", :red)
-              YugiohX2::SLogger.instance.debug("#{e.class.name} : #{e.message}", :red)
-              YugiohX2::SLogger.instance.debug(e.backtrace.join("\n"), :red)
+              Ax1Utils::SLogger.instance.error($log_name, "Failed to sync #{db_name}")
+              Ax1Utils::SLogger.instance.error($log_name, "#{e.class.name} : #{e.message}")
+              Ax1Utils::SLogger.instance.error($log_name, e.backtrace.join("\n"))
             end
           end
         end
 
-        YugiohX2::SLogger.instance.debug("***************Finished sync for #{db_name}")
+        Ax1Utils::SLogger.instance.info($log_name, "***************Finished sync for #{db_name}")
       end
 
       private
@@ -90,7 +90,7 @@ module YugiohX2Lib
         artwork_urls = main_page.gallery_page.fetch_image_urls
 
         if artwork_urls.empty?
-          YugiohX2::SLogger.instance.debug("No artworks for #{card.db_name}", :yellow)
+          Ax1Utils::SLogger.instance.warn($log_name, "No artworks for #{card.db_name}")
         else
           artwork_urls.each do |artwork_url|
             destination = File.join(artwork_dir, File.basename(artwork_url))
@@ -99,12 +99,12 @@ module YugiohX2Lib
             if existing_artwork.nil?
               YugiohX2Lib::Utils.download_url(artwork_url, destination)
               YugiohX2::Artwork.create(card_id: card.id, source_url: artwork_url, image_path: destination)
-              YugiohX2::SLogger.instance.debug("Downloaded artwork to #{destination}", :green)
+              Ax1Utils::SLogger.instance.success($log_name, "Downloaded artwork to #{destination}")
             elsif File.exists?(destination) && !File.zero?(destination)
               YugiohX2Lib::Utils.download_url(artwork_url, destination)
-              YugiohX2::SLogger.instance.debug("Downloaded artwork to #{destination}", :green)
+              Ax1Utils::SLogger.instance.success($log_name, "Downloaded artwork to #{destination}")
             else
-              YugiohX2::SLogger.instance.debug("Skipping artwork #{destination} : Already downloaded", :yellow)
+              Ax1Utils::SLogger.instance.warn($log_name, "Skipping artwork #{destination} : Already downloaded")
             end
           end
         end

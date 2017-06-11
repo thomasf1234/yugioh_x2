@@ -44,20 +44,20 @@ module YugiohX2Lib
                                                             limited_status: limited_status}
 
                     YugiohX2::ForbiddenLimitedListCard.create!(forbidden_limited_list_create_params)
-                    YugiohX2::SLogger.instance.debug("Syncing card: #{name}, card_id: #{card.id}, card_name: #{card.name}, limited_status valid: #{limited_status}", :green)
+                    Ax1Utils::SLogger.instance.success($log_name, "Syncing card: #{name}, card_id: #{card.id}, card_name: #{card.name}, limited_status valid: #{limited_status}")
                   end
                 end
               else
-                YugiohX2::SLogger.instance.debug("Skipping card #{name}, limited_status not valid: #{limited_status}", :yellow)
+                Ax1Utils::SLogger.instance.warn($log_name, "Skipping card #{name}, limited_status not valid: #{limited_status}")
               end
             end
 
-            YugiohX2::SLogger.instance.debug("Downloaded #{forbidden_limited_list.forbidden_limited_list_cards.count} forbidden limited list effective from #{effective_from}", :green)
+            Ax1Utils::SLogger.instance.success($log_name, "Downloaded #{forbidden_limited_list.forbidden_limited_list_cards.count} forbidden limited list effective from #{effective_from}")
           end
         rescue => e
-          YugiohX2::SLogger.instance.debug("Failed to sync #{effective_from}", :red)
-          YugiohX2::SLogger.instance.debug("#{e.class.name} : #{e.message}", :red)
-          YugiohX2::SLogger.instance.debug(e.backtrace.join("\n"), :red)
+          Ax1Utils::SLogger.instance.error($log_name, "Failed to sync #{effective_from}")
+          Ax1Utils::SLogger.instance.error($log_name, "#{e.class.name} : #{e.message}")
+          Ax1Utils::SLogger.instance.error($log_name, e.backtrace.join("\n"))
         end
       end
 

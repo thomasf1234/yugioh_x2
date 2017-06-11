@@ -11,7 +11,7 @@ namespace :admin do
 
     desc "add user with password"
     task :add do
-      prompt = YugiohX2Lib::Prompt.new
+      prompt = Ax1Utils::Prompt.new
       username = prompt.prompt_username
       user = YugiohX2::User.find_by_username(username)
 
@@ -34,7 +34,7 @@ namespace :admin do
       if user.nil?
         raise("User not found")
       else
-        prompt = YugiohX2Lib::Prompt.new
+        prompt = Ax1Utils::Prompt.new
         password = prompt.prompt_password('New Password: ')
         encrypted_password = YugiohX2::User.encrypt_password(username, password)
         user.encrypted_password = encrypted_password

@@ -6,7 +6,7 @@ namespace :admin do
       database = File.basename(database_path)
       dump_path = "db/data/#{ENV['ENV']}/backups/#{timestamp}_#{database}.dump.sql.gz"
 
-      YugiohX2Lib::Utils.system2("sqlite3 #{database_path} \".dump\" | gzip -c9 > #{dump_path}")
+      Ax1Utils.system2("sqlite3 #{database_path} \".dump\" | gzip -c9 > #{dump_path}")
       puts "Dumped db #{database_path} to #{dump_path}"
     end
 
@@ -20,7 +20,7 @@ namespace :admin do
           File.delete(database_path)
         end
 
-        YugiohX2Lib::Utils.system2("zcat #{backup_path} | sqlite3 #{database_path}")
+        Ax1Utils.system2("zcat #{backup_path} | sqlite3 #{database_path}")
         puts "Restored db #{database_path} from #{backup_path}"
       else
         raise "Backup specified cannot be found. Exiting..."
@@ -32,7 +32,7 @@ namespace :admin do
       table = args[:table]
       dump_path = "db/data/#{ENV['ENV']}/backups/#{timestamp}_#{table}.dump.sql.gz"
 
-      YugiohX2Lib::Utils.system2("sqlite3 #{database_path} \".dump #{table}\" | gzip -c9 > #{dump_path}")
+      Ax1Utils.system2("sqlite3 #{database_path} \".dump #{table}\" | gzip -c9 > #{dump_path}")
       puts "Dumped table #{database_path} #{table} to #{dump_path}"
     end
 
@@ -49,7 +49,7 @@ SELECT * FROM #{table};
 .quit
 EOF
 
-      YugiohX2Lib::Utils.system2("sqlite3 #{database_path} <<EOF\n#{command}\nEOF")
+      Ax1Utils.system2("sqlite3 #{database_path} <<EOF\n#{command}\nEOF")
       puts "Dumped table data from #{database_path} #{table} to #{dump_path}"
     end
 
@@ -70,7 +70,7 @@ EOF
     end
 
     def timestamp
-      DateTime.now.utc.strftime("%Y%m%d%H%M%S")
+      Ax1Utils.timestamp
     end
 
     def database_path

@@ -1,5 +1,7 @@
 ENV['ENV'] ||= 'development'
+$log_name = ENV['ENV']
 
+Bundler.require(:default, ENV['ENV'])
 require 'yaml'
 
 ROUTES = YAML.load_file("config/routes.yaml")

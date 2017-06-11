@@ -43,13 +43,13 @@ module YugiohX2
     #percentage of finding the passed card
     def percentage_of_finding_card(card, sample_size=10)
       sample = sample_size.times.map { open_until_find_card(card) }
-      average = YugiohX2Lib::Utils.average(sample)
+      average = Ax1Utils.average(sample)
       "%.2f%" % (100.0/average)
     end
 
     def percentage_of_finding_rarity(rarity, sample_size=10)
       sample = sample_size.times.map { open_until_find_rarity(rarity) }
-      average = YugiohX2Lib::Utils.average(sample)
+      average = Ax1Utils.average(sample)
       "%.2f%" % (100.0/average)
     end
 

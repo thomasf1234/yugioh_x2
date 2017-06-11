@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/thomasf1234/ax1_utils.git
+  revision: 32a1c060e29d6b2cf580c55af3347bdc72088b89
+  tag: 0.0.1
+  specs:
+    ax1_utils (0.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -53,6 +60,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  ax1_utils!
   factory_girl
   nokogiri
   pry
