@@ -1,12 +1,5 @@
 module YugiohX2
   class UserDeck < ActiveRecord::Base
-    EXTRA_DECK_CATEGORIES = [Card::Categories::FUSION,
-                             Card::Categories::SYNCHRO,
-                             Card::Categories::XYZ]
-
-    MAIN_DECK_CATEGORIES = Card::Categories::ALL - EXTRA_DECK_CATEGORIES
-    SIDE_DECK_CATEGORIES = Card::Categories::ALL
-
     serialize :main_card_ids
     serialize :extra_card_ids
     serialize :side_card_ids
@@ -47,7 +40,7 @@ module YugiohX2
       main_card_ids.uniq.each do |card_id|
         card = YugiohX2::Card.find(card_id)
 
-        if !MAIN_DECK_CATEGORIES.include?(card.category)
+        if !main_deck_categories.include?(card.category)
           errors.add(:main_card_ids, "Non-main deck card found in main_card_ids: #{card_id}")
         end
       end
@@ -55,10 +48,24 @@ module YugiohX2
       extra_card_ids.uniq.each do |card_id|
         card = YugiohX2::Card.find(card_id)
 
-        if !EXTRA_DECK_CATEGORIES.include?(card.category)
+        if !extra_deck_categories.include?(card.category)
           errors.add(:extra_card_ids, "Non-extra deck card found in extra_card_ids: #{card_id}")
         end
       end
+    end
+
+    def main_deck_categories
+      Card::Categories::ALL - extra_deck_categories
+    end
+
+    def extra_deck_categories
+      [Card::Categories::FUSION,
+       Card::Categories::SYNCHRO,
+       Card::Categories::XYZ]
+    end
+
+    def side_deck_categories
+      Card::Categories::ALL
     end
   end
 end
