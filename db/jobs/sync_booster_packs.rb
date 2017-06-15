@@ -69,7 +69,7 @@ module YugiohX2Lib
       private
       def fetch_bp_data(bp_db_name)
         page = Nokogiri::HTML(Utils.retry_open("#{ExternalPages::YUGIOH_WIKIA_URL}/wiki/#{bp_db_name}"))
-        name = page.xpath("//div[@class='header-column header-title']//i").text.strip
+        name = page.xpath("//aside/h2").text.strip
         data = {
             name: name,
             cards: []
