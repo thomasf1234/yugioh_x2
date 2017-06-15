@@ -11,4 +11,4 @@ echo "Running db seed"
 $BUNDLE exec rake admin:db:seed
 
 echo "Starting server"
-$BUNDLE exec bin/server.rb
+$BUNDLE exec rake admin:server:start_inline

@@ -6,7 +6,7 @@ namespace :admin do
       database = File.basename(database_path)
       dump_path = "db/data/#{ENV['ENV']}/backups/#{timestamp}_#{database}.dump.sql.gz"
 
-      system2("sqlite3 #{database_path} \".dump\" | gzip -c9 > #{dump_path}")
+      Ax1Utils.system2("sqlite3 #{database_path} \".dump\" | gzip -c9 > #{dump_path}")
       puts "Dumped db #{database_path} to #{dump_path}"
     end
 
@@ -20,7 +20,7 @@ namespace :admin do
           File.delete(database_path)
         end
 
-        system2("zcat #{backup_path} | sqlite3 #{database_path}")
+        Ax1Utils.system2("zcat #{backup_path} | sqlite3 #{database_path}")
         puts "Restored db #{database_path} from #{backup_path}"
       else
         raise "Backup specified cannot be found. Exiting..."
@@ -32,7 +32,7 @@ namespace :admin do
       table = args[:table]
       dump_path = "db/data/#{ENV['ENV']}/backups/#{timestamp}_#{table}.dump.sql.gz"
 
-      system2("sqlite3 #{database_path} \".dump #{table}\" | gzip -c9 > #{dump_path}")
+      Ax1Utils.system2("sqlite3 #{database_path} \".dump #{table}\" | gzip -c9 > #{dump_path}")
       puts "Dumped table #{database_path} #{table} to #{dump_path}"
     end
 
@@ -49,7 +49,7 @@ SELECT * FROM #{table};
 .quit
 EOF
 
-      system2("sqlite3 #{database_path} <<EOF\n#{command}\nEOF")
+      Ax1Utils.system2("sqlite3 #{database_path} <<EOF\n#{command}\nEOF")
       puts "Dumped table data from #{database_path} #{table} to #{dump_path}"
     end
 
@@ -60,7 +60,7 @@ EOF
 
         seed_paths.each do |seed_path|
           puts "Seeding #{seed_path}..."
-          system2("sqlite3 #{database_path} \".read #{seed_path}\"")
+          YugiohX2Lib::DBUtils.seed(seed_path)
         end
 
         puts "Finished seeding #{database_path}."
@@ -69,17 +69,12 @@ EOF
       end
     end
 
-    def system2(command)
-      success = system(command)
-      raise "An error occurred executing command: #{command}" unless success
-    end
-
     def timestamp
-      DateTime.now.utc.strftime("%Y%m%d%H%M%S")
+      Ax1Utils.timestamp
     end
 
     def database_path
-      ActiveRecord::Base.connection_config[:database]
+      YugiohX2Lib::DBUtils.database_path
     end
   end
 end

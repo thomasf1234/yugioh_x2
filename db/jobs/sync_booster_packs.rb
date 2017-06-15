@@ -14,10 +14,10 @@ module YugiohX2Lib
       end
 
       def sync(bp_db_name)
-        YugiohX2::SLogger.instance.debug("***************Starting sync for #{bp_db_name}")
+        Ax1Utils::SLogger.instance.info($log_name, "***************Starting sync for #{bp_db_name}")
 
         if YugiohX2::BoosterPack.exists?(db_name: bp_db_name)
-          YugiohX2::SLogger.instance.debug("Skipping #{bp_db_name}: Already exists", :yellow)
+          Ax1Utils::SLogger.instance.warn($log_name, "Skipping #{bp_db_name}: Already exists")
         else
           artwork_dir = File.join(DATA_DIRECTORY, 'artworks', bp_db_name)
           FileUtils.mkdir_p(artwork_dir)
@@ -52,24 +52,24 @@ module YugiohX2Lib
             end
 
             if YugiohX2::BoosterPack.exists?(db_name: bp_db_name)
-              YugiohX2::SLogger.instance.debug("Successfully synced #{bp_db_name}", :green)
+              Ax1Utils::SLogger.instance.success($log_name, "Successfully synced #{bp_db_name}")
             else
-              YugiohX2::SLogger.instance.debug("Rollback for #{bp_db_name}", :yellow)
+              Ax1Utils::SLogger.instance.warn($log_name, "Rollback for #{bp_db_name}")
             end
           rescue Exception => e
-            YugiohX2::SLogger.instance.debug("Failed to sync #{bp_db_name}", :red)
-            YugiohX2::SLogger.instance.debug("#{e.class.name} : #{e.message}", :red)
-            YugiohX2::SLogger.instance.debug(e.backtrace.join("\n"), :red)
+            Ax1Utils::SLogger.instance.error($log_name, "Failed to sync #{bp_db_name}")
+            Ax1Utils::SLogger.instance.error($log_name, "#{e.class.name} : #{e.message}")
+            Ax1Utils::SLogger.instance.error($log_name, e.backtrace.join("\n"))
           end
         end
 
-        YugiohX2::SLogger.instance.debug("***************Finished sync for #{bp_db_name}")
+        Ax1Utils::SLogger.instance.info($log_name, "***************Finished sync for #{bp_db_name}")
       end
 
       private
       def fetch_bp_data(bp_db_name)
         page = Nokogiri::HTML(Utils.retry_open("#{ExternalPages::YUGIOH_WIKIA_URL}/wiki/#{bp_db_name}"))
-        name = page.xpath("//div[@class='header-column header-title']//i").text.strip
+        name = page.xpath("//aside/h2").text.strip
         data = {
             name: name,
             cards: []
@@ -267,13 +267,3 @@ module YugiohX2Lib
     end
   end
 end
-
-
-
-# In the TCG, each main series Booster Pack is guaranteed a Rare, 7 Commons,
-# and a ninth card which will either be another Common or a foil card (Super Rare rarity or higher).
-# As of Breakers of Shadow, the ninth card is guaranteed to be at least a Super Rare, with a 1:6
-# chance of it being an Ultra Rare and a 1:12 chance of it being a Secret Rare. This also applies
-# to side series sets such as High-Speed Riders and Wing Raiders. Previously, the chances of a
-# single pack containing a Super Rare was 1:5, with Ultra Rare and Secret Rare chances being 1:12
-# and 1:23; in some older historical sets, the latter two chances were 1:24 and 1:31 instead.[c

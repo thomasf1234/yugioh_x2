@@ -3,7 +3,7 @@ require 'open-uri'
 module YugiohX2Lib
   class Utils
     def self.retry_open(url)
-      Retry.new(5, 1).start { open(url) }
+      Ax1Utils::Retry.new(5, 1).start { open(url) }
     end
 
     def self.download_url(url, dest)
@@ -17,17 +17,13 @@ module YugiohX2Lib
     end
 
     def self.create_view(name, sql)
-      stopwatch = YugiohX2Lib::Stopwatch.new
+      stopwatch = Ax1Utils::Stopwatch.new
       duration = stopwatch.time_it(3) do
         ActiveRecord::Base.connection.execute("DROP VIEW IF EXISTS #{name}")
         ActiveRecord::Base.connection.execute(sql)
         puts "-- create_view(:#{name})"
       end
       puts "   -> #{duration}s"
-    end
-
-    def self.average(array)
-      array.inject{ |sum, el| sum + el }.to_f / array.count
     end
   end
 end

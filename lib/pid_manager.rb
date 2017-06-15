@@ -34,7 +34,7 @@ module YugiohX2Lib
               Process.kill(0, pid.to_i)
               true
             else
-              YugiohX2::YugiohError.new("invalid pid found in tmp/pids/server.pid file found")
+              raise YugiohX2::YugiohError.new("invalid pid found in tmp/pids/server.pid file found")
             end
           else
             false

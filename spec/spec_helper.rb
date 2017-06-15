@@ -1,5 +1,4 @@
 ENV['ENV'] ||= 'test'
-Bundler.require(:default, ENV['ENV'])
 require_relative '../application'
 
 factories_path = File.expand_path("../factories",__FILE__)
@@ -50,7 +49,7 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.before(:suite) do
-    YugiohX2::SLogger.instance.empty
+    Ax1Utils::SLogger.instance.clear($log_name)
   end
 
   config.before(:each) do
