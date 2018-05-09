@@ -19,7 +19,6 @@ module YugiohX2Lib
     def self.create_view(name, sql)
       stopwatch = Ax1Utils::Stopwatch.new
       duration = stopwatch.time_it(3) do
-        ActiveRecord::Base.connection.execute("DROP VIEW IF EXISTS #{name}")
         ActiveRecord::Base.connection.execute(sql)
         puts "-- create_view(:#{name})"
       end

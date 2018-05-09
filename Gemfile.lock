@@ -29,12 +29,16 @@ GEM
     method_source (0.8.2)
     mini_portile2 (2.1.0)
     minitest (5.10.2)
+    mustermann (1.0.2)
     nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    rack (2.0.5)
+    rack-protection (2.0.1)
+      rack
     rake (12.0.0)
     rspec (3.6.0)
       rspec-core (~> 3.6.0)
@@ -49,9 +53,15 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.6.0)
     rspec-support (3.6.0)
+    sinatra (2.0.1)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.1)
+      tilt (~> 2.0)
     slop (3.6.0)
     sqlite3 (1.3.13)
     thread_safe (0.3.6)
+    tilt (2.0.8)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
 
@@ -66,7 +76,8 @@ DEPENDENCIES
   pry
   rake
   rspec
+  sinatra
   sqlite3
 
 BUNDLED WITH
-   1.14.6
+   1.16.1

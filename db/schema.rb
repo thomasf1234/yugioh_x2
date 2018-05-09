@@ -127,7 +127,7 @@ ActiveRecord::Schema.define do
   end
 
   YugiohX2Lib::Utils.create_view :monsters, <<EOF
-CREATE VIEW monsters AS
+CREATE VIEW IF NOT EXISTS monsters AS
 SELECT c.id as card_id,
        c.db_name as db_name,
        c.name as name,
@@ -145,7 +145,7 @@ WHERE c.card_type = 'Monster'
 EOF
 
   YugiohX2Lib::Utils.create_view :non_monsters, <<EOF
-CREATE VIEW non_monsters AS
+CREATE VIEW IF NOT EXISTS non_monsters AS
 SELECT c.id as card_id,
        c.db_name as db_name,
        c.name as name,
