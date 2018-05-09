@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport">
+  <link rel="stylesheet" type="text/css" href="/css/style.css" >
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" ></script>
+  <script>
+$(document).ready(function(){
+  $("#deposit-form").submit(function () {
+    var payload = $('#deposit-form').serialize();
+      $.post('/users/deposit', payload)
+          .done(function (data, textStatus, jqXHR) {
+              var newDp = data['new_dp'];
+              var message = data['message'];
+              $("#current_dp_message").text("Current " + newDp + "dp");
+              alert(data['message']);
+          })
+          .fail(function (jqXHR, textStatus, errorThrown) {
+              alert(errorThrown);
+          });
+      return false;
+  });
+});
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <form id="deposit-form" action="/users/deposit" method="post">
+      <h1><%= @user.username %> DP</h1>
+      <p id="current_dp_message">Current <%= @user.dp %>dp</p>
+      <hr>
+
+      <label for="deposit">
+        <b>Deposit</b>
+      </label>
+      <input type="number" min="1" step="1" placeholder="Enter Amount" name="amount" required>
+
+      <button type="submit" class="genericbtn">Deposit</button>
+    </form>
+
+    <div>
+      <a href="/">Home</a>
+    </div>
+  </div>
+</body>
+
+</html>

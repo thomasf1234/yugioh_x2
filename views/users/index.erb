@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport">
+  <link rel="stylesheet" type="text/css" href="/css/style.css" >
+</head>
+
+<body>
+  <div class="container">
+    <h1 style="text-align: center;">Welcome <%= @user.username %></h1>
+    <form action="/users/deposit" method="get">
+      <button type="deposits" class="genericbtn">Deposits</button>
+    </form>
+
+    <form action="/users/logout" method="post">
+      <button type="logout" class="genericbtn">Logout</button>
+    </form>
+  </div>
+</body>
+</html>

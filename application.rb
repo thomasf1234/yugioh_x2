@@ -60,11 +60,8 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    if logged_in?
-      body("Welcome #{current_user.username}")
-    else
-      body("Welcome")
-    end
+    @user = current_user
+    erb :'/users/index'
   end
 
   get '/users/signup' do
@@ -75,13 +72,14 @@ class Application < Sinatra::Base
     erb :'/users/login'
   end
 
-  get '/users/logout' do 
+  post '/users/logout' do 
     session.clear
     redirect '/'
     body("#{current_user.username} logged out")
   end
 
   post '/users/login' do
+    content_type :json
     username = params['username']
     password = params['password']
 
@@ -94,11 +92,11 @@ class Application < Sinatra::Base
         redirect '/'
       else
         status(401)
-        body('Invalid password')
+        { message: 'Invalid password' }.to_json
       end
     else
       status(404)
-      body('User not found')
+      { message: 'User not found' }.to_json
     end
   end
 
@@ -116,7 +114,29 @@ class Application < Sinatra::Base
      { message: "Welcome back #{user.username}." }.to_json
     else
       status(422)
-      body('User already exists')
+      { message: "User already exists." }.to_json
+    end
+  end
+
+  get '/users/deposit' do 
+     @user = current_user
+     erb :'/users/deposit'  
+  end
+
+  post '/users/deposit' do 
+    content_type :json
+
+    if params['amount'].match(/^\d+$/).nil? 
+      status(422)
+      { message: "amount must be a positive integer." }.to_json
+    else
+      amount = params['amount'].to_i
+
+      @user = current_user
+      @user.dp += amount
+      @user.save!
+
+      { message: "#{@user.username} has been awarded #{amount}dp", new_dp: @user.dp }.to_json
     end
   end
 end
