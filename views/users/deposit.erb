@@ -3,7 +3,7 @@
 <head>
   <meta name="viewport">
   <link rel="stylesheet" type="text/css" href="/css/style.css" >
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" ></script>
+  <script type="text/javascript" src="/js/jquery/3.3.1/jquery.min.js"></script>
   <script>
 $(document).ready(function(){
   $("#deposit-form").submit(function () {
@@ -13,7 +13,7 @@ $(document).ready(function(){
               var newDp = data['new_dp'];
               var message = data['message'];
               $("#current_dp_message").text("Current " + newDp + "dp");
-              alert(data['message']);
+              alert(message);
           })
           .fail(function (jqXHR, textStatus, errorThrown) {
               alert(errorThrown);

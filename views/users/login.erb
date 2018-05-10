@@ -3,11 +3,31 @@
 <head>
   <meta name="viewport">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <script type="text/javascript" src="/js/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+$(document).ready(function(){
+  $("#login-form").submit(function () {
+    var payload = $('#login-form').serialize();
+      $.post('/users/login', payload)
+          .done(function (data, textStatus, jqXHR) {
+              var message = data['message'];
+              alert(message);
+              window.location.href = '/';
+          })
+          .fail(function (jqXHR, textStatus, errorThrown) {
+              var data = JSON.parse(jqXHR.responseText);
+              var message = data['message'];
+              alert(message);
+          });
+      return false;
+  });
+});
+  </script>
 </head>
 
 <body>
   <div class="container">
-    <form action="/users/login" method="post">
+    <form id="login-form" action="/users/login" method="post">
     
       <h1>Login</h1>
       <p>Please enter your username and password.</p>

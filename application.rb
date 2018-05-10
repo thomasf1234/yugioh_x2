@@ -19,6 +19,19 @@ Dir["app/exceptions/**/*.rb"].each { |file| require_relative file }
 Dir["app/**/*.rb"].each { |file| require_relative file }
 Dir["db/**/*.rb"].each { |file| require_relative file }
 
+JQUERY_VERSION='3.3.1'
+jquery_url = "https://ajax.googleapis.com/ajax/libs/jquery/#{JQUERY_VERSION}/jquery.min.js"
+
+require 'open-uri'
+jquery_dir = File.join("public/js/jquery", JQUERY_VERSION)
+jquery_path = File.join(jquery_dir, 'jquery.min.js')
+
+require 'fileutils'
+FileUtils.mkdir_p(jquery_dir)
+if !File.exist?(jquery_path)
+  download = open(jquery_url)
+  IO.copy_stream(download, jquery_path)
+end
 
 class Application < Sinatra::Base
   #Listen on all interfaces
@@ -89,7 +102,7 @@ class Application < Sinatra::Base
 
       if encrypted_password == user.encrypted_password
         session[:user_id] = user.id
-        redirect '/'
+        { message: "Welcome back #{user.username}" }.to_json
       else
         status(401)
         { message: 'Invalid password' }.to_json
