@@ -6,14 +6,13 @@ require 'fileutils'
 module YugiohX2
   module Services
     class AssetsService
-      PUBLIC_DIR = "public"
-      JQUERY_VERSION='3.3.1'
+      PUBLIC_DIR = "app/controllers/public"
 
       include Singleton
 
-      def install_jquery
-        jquery_url = "https://ajax.googleapis.com/ajax/libs/jquery/#{JQUERY_VERSION}/jquery.min.js"
-        jquery_dir = File.join(PUBLIC_DIR, "js/jquery", JQUERY_VERSION)
+      def install_jquery(version)
+        jquery_url = File.join("https://ajax.googleapis.com/ajax/libs/jquery", version, "/jquery.min.js")
+        jquery_dir = File.join(PUBLIC_DIR, "js/jquery", version)
         jquery_path = File.join(jquery_dir, 'jquery.min.js')
 
         FileUtils.mkdir_p(jquery_dir)

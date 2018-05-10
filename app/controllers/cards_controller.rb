@@ -1,8 +1,8 @@
-require_relative 'base_controller'
+require_relative 'application_controller'
 require 'base64'
 
 module YugiohX2
-  class CardsController < BaseController
+  class CardsController < ApplicationController
     #admin
     def db_names(request)
       db_names = YugiohX2::Card.pluck(:db_name)

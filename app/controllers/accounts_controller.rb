@@ -1,7 +1,7 @@
-require_relative 'base_controller'
+require_relative 'application_controller'
 
 module YugiohX2
-  class AccountsController < BaseController
+  class AccountsController < ApplicationController
     def login(request)
       body = extract_payload(request)
 

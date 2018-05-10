@@ -1,7 +1,7 @@
-require_relative 'base_controller'
+require_relative 'application_controller'
 
 module YugiohX2
-  class ShopsController < BaseController
+  class ShopsController < ApplicationController
     def purchase(request)
       if logged_in?(request)
         user = current_user(request)

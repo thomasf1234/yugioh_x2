@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'puma'
 gem 'rake'
 gem 'activerecord'
 gem 'sqlite3'
