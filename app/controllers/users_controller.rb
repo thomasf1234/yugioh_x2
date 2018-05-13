@@ -78,6 +78,12 @@ module YugiohX2
       end
     end
 
+  #   get '/cards' do 
+  #     @cards = current_user.user_cards
+
+  #     erb :'/users/cards'  
+  #  end
+
     def cards(request)
       if logged_in?(request)
         user = current_user(request)

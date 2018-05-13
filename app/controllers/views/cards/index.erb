@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport">
+  <link rel="stylesheet" type="text/css" href="/css/style.css" >
+</head>
+
+<body>
+  <div>
+    <table>
+      <tr>
+        <th>Cards</th>
+      </tr>
+      <% @cards.each do |card| %>
+      <tr>
+        <th>
+          <a href="/cards/<%= card.id %>/artworks"><%= card.name %></a>
+        </th> 
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</body>
+</html>

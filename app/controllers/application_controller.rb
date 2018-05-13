@@ -2,6 +2,7 @@ module YugiohX2
   class ApplicationController < Sinatra::Base
     #Listen on all interfaces
     set :bind, '0.0.0.0'
+    set :port, 2000
     enable :sessions
 
     def logged_in?

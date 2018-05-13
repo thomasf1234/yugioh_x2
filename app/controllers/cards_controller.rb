@@ -3,33 +3,51 @@ require 'base64'
 
 module YugiohX2
   class CardsController < ApplicationController
-    #admin
-    def db_names(request)
-      db_names = YugiohX2::Card.pluck(:db_name)
-      render json: {db_names: db_names}.to_json
+    include URI::Escape
+
+    get '/' do
+      @cards = YugiohX2::Card.all.sort_by(&:name)
+      erb :'/cards/index'
     end
 
-    #admin
-    def get(request)
-      if valid_params?(request.query, ['db_name'])
-        db_name = request.query['db_name']
-        card = YugiohX2::Card.find_by_db_name(db_name)
+    get '/:id' do
+      content_type :json
+      id = params[:id]
 
-        if card.nil?
-          render({json: {message: "No card found for db_name"}.to_json}, 422)
+      if YugiohX2::Card.exists?(id: id)
+        @card = YugiohX2::Card.find(id)
+        @card.to_json({include: [:monster_types, :artworks], except: [:id, :card_id]})
+      else
+        status(404)
+        { message: 'Card not found' }.to_json
+      end
+    end
+
+    get '/:id/artworks' do
+      id = params[:id]
+      @card = YugiohX2::Card.find(id)
+      erb :'/cards/artworks'
+    end
+
+    delete '/:id/artworks/:artwork_id' do
+      content_type :json
+      id = params[:id]
+      artwork_id = params[:artwork_id]
+    
+      if YugiohX2::Card.exists?(id: id)
+        card = YugiohX2::Card.find(id)
+
+        if card.artworks.exists?(id: artwork_id)
+          artwork = card.artworks.find(artwork_id)
+          artwork.destroy!
+          { message: 'Artwork deleted' }.to_json
         else
-          monster_types = card.monster_types.map(&:name)
-          artworks = card.artworks
-          images = artworks.map do |artwork|
-            image_file = File.open(artwork.image_path)
-            encoded = Base64.strict_encode64(image_file.read)
-            { name: File.basename(artwork.image_path), data: encoded }
-          end
-
-          render json: {card: card, monster_types: monster_types, artworks: images}.to_json(except: [:id, :card_id])
+          status(404)
+          { message: 'Artwork not found' }.to_json
         end
       else
-        render({json: {message: "invalid request parameters"}.to_json}, 422)
+        status(404)
+        { message: 'Card not found' }.to_json
       end
     end
   end
