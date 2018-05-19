@@ -6,8 +6,12 @@ module YugiohX2
     include URI::Escape
 
     get '/' do
-      @cards = YugiohX2::Card.all.sort_by(&:name)
-      erb :'/cards/index'
+      if current_user.admin?
+        @cards = YugiohX2::Card.all.sort_by(&:name)
+        erb :'/cards/index'
+      else
+        status(401)
+      end
     end
 
     get '/:id' do

@@ -5,6 +5,7 @@ ActiveRecord::Schema.define do
     create_table :users do |table|
       table.column :username, :string
       table.column :encrypted_password, :binary
+      table.column :admin, :boolean, default: false
       table.column :dp, :integer, default: 0
 
       table.index :username, unique: true

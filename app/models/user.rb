@@ -35,5 +35,9 @@ module YugiohX2
         end
       end
     end
+
+    def admin?
+      self.admin == true
+    end
   end
 end

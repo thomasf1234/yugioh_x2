@@ -14,7 +14,6 @@ module YugiohX2
     end
 
     def delete_image
-      require 'pry'; binding.pry
       if File.exist?(self.image_path)
         File.delete(self.image_path)
       end

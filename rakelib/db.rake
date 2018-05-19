@@ -53,6 +53,7 @@ EOF
       puts "Dumped table data from #{database_path} #{table} to #{dump_path}"
     end
 
+    #TODO better seed
     desc "runs database seeds in db/seeds/*.sql"
     task :seed do
       if YugiohX2::Card.count == 0

@@ -16,9 +16,11 @@
       <button type="logout" class="genericbtn">Logout</button>
     </form>
 
-    <form action="/cards" method="get">
-      <button type="cards" class="genericbtn">All Cards</button>
-    </form>
+    <% if @user.admin? %>
+      <form action="/cards" method="get">
+        <button type="cards" class="genericbtn">All Cards</button>
+      </form>
+    <% end %> 
   </div>
 </body>
 </html>
