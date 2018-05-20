@@ -78,11 +78,11 @@ module YugiohX2
       end
     end
 
-  #   get '/cards' do 
-  #     @cards = current_user.user_cards
+    get '/cards' do 
+      cards = current_user.user_cards
 
-  #     erb :'/users/cards'  
-  #  end
+      cards.to_json(except: [:id, :user_id]) 
+   end
 
     def cards(request)
       if logged_in?(request)

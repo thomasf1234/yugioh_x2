@@ -1,3 +1,5 @@
+require 'RMagick'
+
 module YugiohX2
   class Card < ActiveRecord::Base
     module Types
@@ -29,5 +31,25 @@ module YugiohX2
     if ENV['ENV'] != 'test'
       after_initialize :readonly!
     end
+
+    def thumbnail(artwork_index=0)
+      template = Magick::Image.read("app/controllers/public/images/templates/#{category.downcase}.png").first
+      artwork = Magick::Image.read(artworks[artwork_index].image_path).first.scale(209, 230)
+      template.composite!(artwork, 5, 5, Magick::OverCompositeOp)   
+    end
   end
 end
+
+# YugiohX2::Card.all.each do |card|
+#   next if card.category == 'Pendulum'
+#   card.artworks.each_with_index do |artwork, index|
+#     file_path = "tmp/#{card.id}_#{index}.bmp"
+#     if !File.exist?(file_path)
+#       begin
+#         card.thumbnail(index).write(file_path)
+#       rescue => e
+#         puts "Error occurred for card #{card.id}, artwork: #{artwork.id}: #{e}"
+#       end
+#     end
+#   end
+# end

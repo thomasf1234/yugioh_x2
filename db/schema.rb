@@ -28,6 +28,7 @@ ActiveRecord::Schema.define do
     create_table :user_cards do |table|
       table.column :user_id, :integer
       table.column :card_id, :integer
+      table.column :artwork_id, :integer
       table.column :count, :integer, default: 1
 
       table.index [:user_id, :card_id], unique: true
@@ -124,6 +125,15 @@ ActiveRecord::Schema.define do
       table.column :limited_status, :string
 
       table.index [:forbidden_limited_list_id, :card_id], unique: true, name: 'unique_index_fll_id_card_id'
+    end
+  end
+
+  unless ActiveRecord::Base.connection.data_sources.include?('duels')
+    create_table :duels do |table|
+      table.column :user_a_id, :integer
+      table.column :user_b_id, :integer
+      table.column :state, :string, default: 'pending'
+      table.column :result, :string
     end
   end
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport">
+  <link rel="stylesheet" type="text/css" href="/css/style.css" >
+</head>
+
+<body>
+  <div>
+    <table>
+      <tr>
+        <th>Current Duels</th>
+      </tr>
+      <% @duels.each do |duel| %>
+      <tr>
+        <th>
+          <% if duel.pending? %>
+          <form action="/duels/<%= duel.id %>/join" method="post">
+           <button type="join" class="genericbtn"><%= "#{duel.user_a.username} - Join" %></button>
+          </form>
+          <% else %>
+
+          <% end %>
+        </th> 
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</body>
+</html>
