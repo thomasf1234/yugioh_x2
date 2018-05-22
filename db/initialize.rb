@@ -1,15 +1,16 @@
 require 'fileutils'
 
-DATA_DIRECTORY = File.join("db/data", ENV['ENV'])
-FileUtils.mkdir_p(DATA_DIRECTORY)
-
-db_name = "#{ENV['ENV']}.sqlite"
+db_name = "yugioh_x2_#{ENV['ENV']}"
 ActiveRecord::Base.logger = Logger.new(File.open("log/#{db_name}.log", 'w+'))
 
 ActiveRecord::Base.establish_connection(
-    :adapter  => 'sqlite3',
-    :database => File.join(DATA_DIRECTORY, db_name),
-    :pool => 30
+    :adapter => "postgresql",
+    :host => "localhost",
+    :port => "5432",
+    :username => "yugioh_x2",
+    :password => "password",
+    :database => db_name,
+    :encoding => "utf8"
 )
 
 require_relative 'schema'

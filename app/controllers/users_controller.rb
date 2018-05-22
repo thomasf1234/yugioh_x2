@@ -46,7 +46,7 @@ module YugiohX2
       user = YugiohX2::User.find_by_username(username)
       if user.nil?
         encrypted_password = YugiohX2::User.encrypt_password(username, password)
-        user = YugiohX2::User.create({username: username, encrypted_password: encrypted_password})
+        user = YugiohX2::User.create!({username: username, encrypted_password: encrypted_password})
         session[:user_id] = user.id
         
        { message: "Welcome back #{user.username}." }.to_json

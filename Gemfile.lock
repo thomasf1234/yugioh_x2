@@ -32,6 +32,7 @@ GEM
     mustermann (1.0.2)
     nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
+    pg (0.21.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -75,6 +76,7 @@ DEPENDENCIES
   ax1_utils!
   factory_girl
   nokogiri
+  pg (~> 0.18)
   pry
   puma
   rake
@@ -84,4 +86,4 @@ DEPENDENCIES
   sqlite3
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

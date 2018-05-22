@@ -12,18 +12,6 @@ ActiveRecord::Schema.define do
     end
   end
 
-  unless ActiveRecord::Base.connection.data_sources.include?('sessions')
-    create_table :sessions do |table|
-      table.column :user_id, :integer
-      table.column :uuid, :string
-      table.column :remote_ip, :string
-      table.column :expires_at, :datetime
-
-      table.index :user_id, unique: true
-      table.index :uuid, unique: true
-    end
-  end
-
   unless ActiveRecord::Base.connection.data_sources.include?('user_cards')
     create_table :user_cards do |table|
       table.column :user_id, :integer
@@ -137,34 +125,34 @@ ActiveRecord::Schema.define do
     end
   end
 
-  YugiohX2Lib::Utils.create_view :monsters, <<EOF
-CREATE VIEW IF NOT EXISTS monsters AS
-SELECT c.id as card_id,
-       c.db_name as db_name,
-       c.name as name,
-       c.category as category,
-       c.level as level,
-       c.rank as rank,
-       c.pendulum_scale as pendulum_scale,
-       c.card_attribute as card_attribute,
-       c.attack as attack,
-       c.defense as defense,
-       c.serial_number as serial_number,
-       c.description as description
-FROM cards c
-WHERE c.card_type = 'Monster'
-EOF
+#   YugiohX2Lib::Utils.create_view :monsters, <<EOF
+# CREATE VIEW IF NOT EXISTS monsters AS
+# SELECT c.id as card_id,
+#        c.db_name as db_name,
+#        c.name as name,
+#        c.category as category,
+#        c.level as level,
+#        c.rank as rank,
+#        c.pendulum_scale as pendulum_scale,
+#        c.card_attribute as card_attribute,
+#        c.attack as attack,
+#        c.defense as defense,
+#        c.serial_number as serial_number,
+#        c.description as description
+# FROM cards c
+# WHERE c.card_type = 'Monster'
+# EOF
 
-  YugiohX2Lib::Utils.create_view :non_monsters, <<EOF
-CREATE VIEW IF NOT EXISTS non_monsters AS
-SELECT c.id as card_id,
-       c.db_name as db_name,
-       c.name as name,
-       c.category as category,
-       c.property as property,
-       c.serial_number as serial_number,
-       c.description as description
-FROM cards c
-WHERE c.card_type = 'NonMonster'
-EOF
+#   YugiohX2Lib::Utils.create_view :non_monsters, <<EOF
+# CREATE VIEW IF NOT EXISTS non_monsters AS
+# SELECT c.id as card_id,
+#        c.db_name as db_name,
+#        c.name as name,
+#        c.category as category,
+#        c.property as property,
+#        c.serial_number as serial_number,
+#        c.description as description
+# FROM cards c
+# WHERE c.card_type = 'NonMonster'
+# EOF
 end

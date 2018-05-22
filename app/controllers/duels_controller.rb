@@ -9,7 +9,12 @@ module YugiohX2
 
     post '/' do
       @duel = YugiohX2::Duel.create!(user_a_id: current_user.id)
-      erb :'/duels/start'
+
+      until @duel.started? do
+        @duel.reload
+      end
+
+      erb :'/duels/started'
     end
 
     post '/:id/join' do

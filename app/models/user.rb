@@ -9,7 +9,6 @@ module YugiohX2
       "{SHA256}#{Digest::SHA256.digest("#{username}:#{password}")}"
     end
 
-    has_one :session
     has_many :user_cards
 
     def deposit(amount)
