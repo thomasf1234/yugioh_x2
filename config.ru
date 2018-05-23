@@ -3,6 +3,7 @@ $:.unshift(".")
 
 require "application"
 
+map('/internals') { run YugiohX2::InternalsController }
 map('/users') { run YugiohX2::UsersController }
 map('/cards') { run YugiohX2::CardsController }
 map('/duels') { run YugiohX2::DuelsController }

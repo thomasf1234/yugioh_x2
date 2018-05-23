@@ -8,8 +8,12 @@
 <body>
   <div class="container">
     <h1 style="text-align: center;">Home</h1>
-    <form action="/users/deposit" method="get">
+    <form action="/internals/deposit" method="get">
       <button type="deposits" class="genericbtn">Deposits</button>
+    </form>
+
+    <form action="/internals/trunk/0" method="get">
+      <button type="trunk" class="genericbtn">Trunk</button>
     </form>
 
     <form action="/duels" method="post">
@@ -20,15 +24,15 @@
       <button type="duels" class="genericbtn">Duels</button>
     </form>
 
-    <form action="/users/logout" method="post">
-      <button type="logout" class="genericbtn">Logout</button>
-    </form>
-
     <% if @user.admin? %>
       <form action="/cards" method="get">
         <button type="cards" class="genericbtn">All Cards</button>
       </form>
     <% end %> 
+
+    <form action="/users/logout" method="post">
+      <button type="logout" class="genericbtn">Logout</button>
+    </form>
   </div>
 </body>
 </html>

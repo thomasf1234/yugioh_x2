@@ -24,9 +24,10 @@ module YugiohX2
         redirect_bool = true
         {
           '/healthcheck' => ['GET'],
-          '/users/login' => ['GET', 'POST'],
-          '/users/signup' => ['GET'],
-          '/users' => ['POST']
+          '/internals/login' => ['GET'],
+          '/internals/signup' => ['GET'],
+          '/users' => ['POST'],
+          '/users/login' => ['POST']
         }.each do |endpoint, request_methods|
           if request_path == endpoint && request_methods.include?(request_method)
             redirect_bool = false
@@ -35,7 +36,7 @@ module YugiohX2
         end
   
         if redirect_bool
-          redirect :'/users/login'
+          redirect :'/internals/login'
         end
       end
     end
@@ -46,7 +47,7 @@ module YugiohX2
 
     get '/' do
       @user = current_user
-      erb :'/users/index'
+      erb :'/internals/index'
     end
   end
 end

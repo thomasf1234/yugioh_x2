@@ -17,13 +17,5 @@ module YugiohX2
     def started?
       self.state == 'started'
     end
-
-    def join!(user_b)
-      if pending?
-        update!(user_b_id: user_b.id, state: 'started')
-      else
-        raise ArgumentError.new("Duel is not pending")
-      end
-    end
   end
 end

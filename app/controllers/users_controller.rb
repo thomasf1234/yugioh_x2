@@ -1,15 +1,7 @@
 require_relative 'application_controller'
 
 module YugiohX2
-  class UsersController < ApplicationController
-    get '/signup' do
-      erb :'/users/signup'
-    end
-  
-    get '/login' do 
-      erb :'/users/login'
-    end
-  
+  class UsersController < ApplicationController  
     post '/logout' do 
       session.clear
       redirect '/'
@@ -56,11 +48,6 @@ module YugiohX2
       end
     end
   
-    get '/deposit' do 
-       @user = current_user
-       erb :'/users/deposit'  
-    end
-  
     post '/deposit' do 
       content_type :json
   
@@ -79,9 +66,9 @@ module YugiohX2
     end
 
     get '/cards' do 
-      cards = current_user.user_cards
-
-      cards.to_json(except: [:id, :user_id]) 
+      user_cards = current_user.user_cards.limit(100).reject {|user_card| user_card.card.artworks.empty?}
+      
+      user_cards.to_json(except: [:id, :user_id])   
    end
 
     def cards(request)

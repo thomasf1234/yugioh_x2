@@ -4,3 +4,4 @@ tmp
 log
 vendor/
 db/data/
+/app/controllers/public/images/

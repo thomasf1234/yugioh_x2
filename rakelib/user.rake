@@ -55,5 +55,28 @@ namespace :admin do
         user.destroy!
       end
     end
+
+    desc "add 1 of every card"
+    task :grant_all_cards, [:username]  do |t, args|
+      username = args[:username]
+      raise ArgumentError.new("Username required") if username.blank?
+
+      user = YugiohX2::User.find_by_username(username)
+
+      if user.nil?
+        raise("User not found")
+      else
+        YugiohX2::Card.all.each do |card|
+          user_card = user.user_cards.find_by_card_id(card.id)
+          puts "Granting #{card.name}"
+
+          if user_card.nil?
+            YugiohX2::UserCard.create!(user_id: user.id, card_id: card.id)
+          else
+            user_card.increment!(:count)
+          end
+        end
+      end
+    end
   end
 end

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport">
+  <link rel="stylesheet" type="text/css" href="/css/style.css" >
+  <style>
+
+.trunkItemImage {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.trunkItemContainer:hover .trunkItemImage {
+  opacity: 0.7;
+  outline: 5px solid yellow;
+}
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="container">
+      <table id="trunk" align="centre" style="float: left">
+      <% @user_cards.each_slice(10) do |user_cards| %>
+      <tr>
+        <% user_cards.each do |user_card| %>
+        <td>
+          <div class="trunkItemContainer">
+          <% if user_card.card.artworks.empty? %>
+            <img class="trunkItemImage" src="/images/templates/back.png">
+          <% else %>
+            <img class="trunkItemImage" src="/images/thumbnails/<%= user_card.card.id %>_0.bmp">
+          <% end %>
+          </div>
+        </td> 
+        <% end %>
+      </tr>
+      <% end %>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

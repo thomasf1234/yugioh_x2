@@ -22,7 +22,13 @@ module YugiohX2
 
       if YugiohX2::Duel.exists?(duel_id) 
         @duel = YugiohX2::Duel.find(duel_id)
-        @duel.join!(current_user)
+
+        if @duel.pending?
+          @duel.update!(user_b_id: current_user.id, state: 'started')
+          @duel.user_a.
+        else
+          raise ArgumentError.new("Duel is not pending")
+        end
       end
    
       erb :'/duels/started'

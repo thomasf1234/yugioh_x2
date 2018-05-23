@@ -5,15 +5,6 @@ module YugiohX2
   class CardsController < ApplicationController
     include URI::Escape
 
-    get '/' do
-      if current_user.admin?
-        @cards = YugiohX2::Card.all.sort_by(&:name)
-        erb :'/cards/index'
-      else
-        status(401)
-      end
-    end
-
     get '/:id' do
       content_type :json
       id = params[:id]
@@ -25,12 +16,6 @@ module YugiohX2
         status(404)
         { message: 'Card not found' }.to_json
       end
-    end
-
-    get '/:id/artworks' do
-      id = params[:id]
-      @card = YugiohX2::Card.find(id)
-      erb :'/cards/artworks'
     end
 
     delete '/:id/artworks/:artwork_id' do
